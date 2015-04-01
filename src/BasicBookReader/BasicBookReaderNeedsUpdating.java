@@ -155,7 +155,6 @@ public class BasicBookReaderNeedsUpdating {
 					if(line.contains("***END OF THE PROJECT GUTENBERG EBOOK")){
 						allowRead = false;
 					}
-					else{
 						Tokenizer tokenizer = stf.tokenizer(line.toCharArray(),0,line.length());
 						tokenizer.tokenize(tokenList,whiteList);
 						currentWordTotal += line.split(" ").length;
@@ -164,7 +163,6 @@ public class BasicBookReaderNeedsUpdating {
 							currentWordTotal = 0;
 							pageNumber++;
 							tokenList = new ArrayList<String>();
-						}
 					}
 				}
 				else{
@@ -181,5 +179,6 @@ public class BasicBookReaderNeedsUpdating {
 		for(int key : map.keySet()){
 			System.out.println(key + "\t" + map.get(key));
 		}
+		System.out.println(map.get(548));
 	}
 }
