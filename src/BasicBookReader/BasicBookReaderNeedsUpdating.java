@@ -92,6 +92,43 @@ public class BasicBookReaderNeedsUpdating {
 		stopSet.add("to");
 		stopSet.add(".");
 		stopSet.add(",");
+		stopSet.add("!");
+		stopSet.add("my");
+		stopSet.add("I");
+		stopSet.add("you");
+		stopSet.add("yours");
+		stopSet.add("thou");
+		stopSet.add("-");
+		stopSet.add("his");
+		stopSet.add("hers");
+		stopSet.add("me");
+		stopSet.add("he");
+		stopSet.add("she");
+		stopSet.add(",");
+		stopSet.add("\"");
+		stopSet.add("'");
+		stopSet.add("?");
+		stopSet.add("He");
+		stopSet.add("She");
+		stopSet.add("His");
+		stopSet.add("Hers");
+		stopSet.add("Ours");
+		stopSet.add("ours");
+		stopSet.add("a");
+		stopSet.add("A");
+		stopSet.add("--");
+		stopSet.add(";");
+		stopSet.add(":");
+		stopSet.add("am");
+		stopSet.add("no");
+		stopSet.add("No");
+		stopSet.add("(");
+		stopSet.add(")");
+		stopSet.add("Where");
+		stopSet.add("When");
+		stopSet.add("But");
+		stopSet.add("but");
+		
 	}
 	int pageWordLimit = 350;
 
