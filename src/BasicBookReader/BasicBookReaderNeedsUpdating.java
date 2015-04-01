@@ -168,7 +168,7 @@ public class BasicBookReaderNeedsUpdating {
 					}
 				}
 				else{
-					if(line.contains("***START OF THE PROJECT GUTENBERG EBOOK")){
+					if(line.contains("***")){
 						allowRead = true;
 					}
 				}
