@@ -117,7 +117,6 @@ public class BasicBookReaderNeedsUpdating {
 				if(allowRead){
 					if(line.contains("***END OF THE PROJECT GUTENBERG EBOOK")){
 						allowRead = false;
-						System.out.println("\n\n\n\nEnd\n\n\n\n");
 					}
 					else{
 						Tokenizer tokenizer = stf.tokenizer(line.toCharArray(),0,line.length());
@@ -134,7 +133,6 @@ public class BasicBookReaderNeedsUpdating {
 				else{
 					if(line.contains("***START OF THE PROJECT GUTENBERG EBOOK")){
 						allowRead = true;
-						System.out.println("\n\n\n\nStart\n\n\n\n");
 					}
 				}
 			}
