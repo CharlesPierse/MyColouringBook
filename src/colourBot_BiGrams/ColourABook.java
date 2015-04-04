@@ -15,7 +15,7 @@ public class ColourABook {
 
 	public void fillMap(){
 		String line="";
-		fullWordMap = new HashMap<>();
+		fullWordMap = new HashMap<String, HashMap<String,String>>();
 		try {
 			FileInputStream fis=new FileInputStream("resources"+File.separator+"fullWordMap.txt");
 			BufferedReader br=new BufferedReader(new InputStreamReader(fis,"UTF-8"));
