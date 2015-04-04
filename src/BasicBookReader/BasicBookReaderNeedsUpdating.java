@@ -132,23 +132,28 @@ public class BasicBookReaderNeedsUpdating {
 
 	}
 	int pageWordLimit = 350;
+	HashMap<Integer, List<String>> wordMap = new HashMap<Integer, List<String>>();
 
 	public static void main(String args[]){
-		BasicBookReaderNeedsUpdating lpt = new BasicBookReaderNeedsUpdating(); //lpt = ling pipe test
+		BasicBookReaderNeedsUpdating bbr = new BasicBookReaderNeedsUpdating(); //lpt = ling pipe test
+		bbr.readBook();
+		for(int key : bbr.wordMap.keySet()){
+			System.out.println(key + "\t" + bbr.wordMap.get(key));
+		}
+	}
+
+	public void readBook(){
 		File file = new File("resources" + File.separator + "TextToLexer");
 		boolean allowRead = false;
 
 		TokenizerFactory TOKENIZER_FACTORY = IndoEuropeanTokenizerFactory.INSTANCE;
-		StopTokenizerFactory stf = new StopTokenizerFactory(TOKENIZER_FACTORY, lpt.stopSet);
+		StopTokenizerFactory stf = new StopTokenizerFactory(TOKENIZER_FACTORY, stopSet);
 
 		List<String> tokenList = new ArrayList<String>();
 		List<String> whiteList = new ArrayList<String>();
 
-		HashMap<Integer, List<String>> map = new HashMap<Integer, List<String>>();
-
 		int pageNumber = 0;
 		int currentWordTotal = 0;
-
 		try{
 			FileLineReader lines = new FileLineReader(file,"UTF-8");
 			for (String line : lines) {
@@ -160,8 +165,8 @@ public class BasicBookReaderNeedsUpdating {
 						Tokenizer tokenizer = stf.tokenizer(line.toCharArray(),0,line.length());
 						tokenizer.tokenize(tokenList,whiteList);
 						currentWordTotal += line.split(" ").length;
-						if(currentWordTotal >= lpt.pageWordLimit){
-							map.put(pageNumber, tokenList);
+						if(currentWordTotal >= pageWordLimit){
+							wordMap.put(pageNumber, tokenList);
 							currentWordTotal = 0;
 							pageNumber++;
 							tokenList = new ArrayList<String>();
@@ -174,13 +179,15 @@ public class BasicBookReaderNeedsUpdating {
 					}
 				}
 			}
-			map.put(pageNumber, tokenList);
+			wordMap.put(pageNumber, tokenList);
 			lines.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		for(int key : map.keySet()){
-			System.out.println(key + "\t" + map.get(key));
-		}
+	
+	}
+
+	public HashMap<Integer, List<String>> getWordMap(){
+		return wordMap;
 	}
 }

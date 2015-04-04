@@ -5,7 +5,7 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import com.sun.prism.paint.Color;
+//import com.sun.prism.paint.Color;
 
 public class image {
 	
