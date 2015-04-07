@@ -52,6 +52,7 @@ public class ColourABook {
 					tempMap = fullWordMap.get(word);
 					for(String hex : tempMap.values()){
 						currentMix = blender.colourBlend(currentMix, hex);
+						System.out.println(currentMix);
 					}
 				}
 			}
@@ -65,6 +66,6 @@ public class ColourABook {
 		basicBookReader.readBook();
 		bookColourer.fillMap();
 		bookColourer.bookMap = basicBookReader.getWordMap();
-		System.out.println(bookColourer.colourBook());
+		System.out.println("The result is: " + bookColourer.colourBook());
 	}
 }

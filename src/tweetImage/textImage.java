@@ -72,7 +72,7 @@ public class textImage {
 		return img;
 	}
 	public static void main(String[] args) throws IOException{
-		textImage text = new textImage("yo yo");
+//		textImage text = new textImage("yo yo");
 		//ImageIO.write(text.getScaledImage(ImageIO.read(new File("resources/tweetimages/Text.png")), 366, 494), "PNG", new File("resources/tweetimages/ResizedText.png"));
 	}
 }
