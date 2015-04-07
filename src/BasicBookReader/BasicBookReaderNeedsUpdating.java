@@ -6,6 +6,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+
+//import com.aliasi.io.FileLineReader;
+import com.aliasi.util.Files;
 import com.aliasi.io.FileLineReader;
 import com.aliasi.tokenizer.*;
 
@@ -131,6 +135,7 @@ public class BasicBookReaderNeedsUpdating {
 		stopSet.add("~");
 
 	}
+	int pageCharLimit = 2550;
 	int pageWordLimit = 350;
 	HashMap<Integer, List<String>> wordMap = new HashMap<Integer, List<String>>();
 
@@ -154,37 +159,79 @@ public class BasicBookReaderNeedsUpdating {
 
 		int pageNumber = 0;
 		int currentWordTotal = 0;
-		try{
-			FileLineReader lines = new FileLineReader(file,"UTF-8");
-			for (String line : lines) {
-				if(allowRead){
-					if(line.contains("***END OF THE PROJECT GUTENBERG EBOOK")){
-						allowRead = false;
+		
+		String line = "";
+//----------------Slower approach but with more uniform page length.------------------
+//		try{
+//			char[] book = Files.readCharsFromFile(file, "UTF-8");
+//			for(int currentPosition = 0; currentPosition < book.length; currentPosition++){
+//				if(allowRead){
+//					if(book[currentPosition] == '*' && book[currentPosition+1] == '*' && book[currentPosition+2] == '*'){
+//						allowRead = false;
+//						//stop the reader somehow
+//					}
+//					else{
+//						line += book[currentPosition];
+//						if(line.length() > pageCharLimit && line.endsWith(" ")){
+//							Tokenizer tokenizer = stf.tokenizer(line.toCharArray(),0,line.length());
+//							tokenizer.tokenize(tokenList,whiteList);
+//							wordMap.put(pageNumber, tokenList);
+//							line = "";
+//							pageNumber++;
+//							tokenList = new ArrayList<String>();
+//						}
+//					}
+//				}
+//				else{
+//					if(book[currentPosition] == '*' && book[currentPosition+1] == '*' && book[currentPosition+2] == '*'){
+//						currentPosition+=2;//so it doesn't read in the same chars again.
+//						while(!allowRead){ //this loop is here so that we don't start reading until after the book introduction is finished
+//							//there are two sets of *** before the book begins, both are on the same line.
+//							//there is probably a nice way of doing this, I'll ask Anirudha.
+//							if(book[currentPosition] == '*' && book[currentPosition+1] == '*' && book[currentPosition+2] == '*'){
+//								currentPosition+=2;//so it doesn't read in the same chars again.
+//								allowRead = true;
+//							}
+//							currentPosition++;
+//						}
+//					}
+//				}
+//			}
+//		} catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
+			try{
+				FileLineReader book = new FileLineReader(file,"UTF-8");
+				for (String curretnLine : book) {
+					if(allowRead){
+						if(curretnLine.contains("***END OF THE PROJECT GUTENBERG EBOOK")){
+							allowRead = false;
+						}
+						else{
+							Tokenizer tokenizer = stf.tokenizer(curretnLine.toCharArray(),0,curretnLine.length());
+							tokenizer.tokenize(tokenList,whiteList);
+							currentWordTotal += curretnLine.split(" ").length;
+							if(currentWordTotal >= pageWordLimit){
+								wordMap.put(pageNumber, tokenList);
+								currentWordTotal = 0;
+								pageNumber++;
+								tokenList = new ArrayList<String>();
+							}
+						}
 					}
 					else{
-						Tokenizer tokenizer = stf.tokenizer(line.toCharArray(),0,line.length());
-						tokenizer.tokenize(tokenList,whiteList);
-						currentWordTotal += line.split(" ").length;
-						if(currentWordTotal >= pageWordLimit){
-							wordMap.put(pageNumber, tokenList);
-							currentWordTotal = 0;
-							pageNumber++;
-							tokenList = new ArrayList<String>();
+						if(curretnLine.contains("***")){
+							allowRead = true;
 						}
 					}
 				}
-				else{
-					if(line.contains("***")){
-						allowRead = true;
-					}
-				}
+				wordMap.put(pageNumber, tokenList);
+				book.close();
+			} catch(Exception e) {
+				e.printStackTrace();
 			}
-			wordMap.put(pageNumber, tokenList);
-			lines.close();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-	
+
 	}
 
 	public HashMap<Integer, List<String>> getWordMap(){
