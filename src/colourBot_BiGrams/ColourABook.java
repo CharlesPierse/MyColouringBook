@@ -45,8 +45,9 @@ public class ColourABook {
 		ColourBlender blender = new ColourBlender();
 		String currentMix = "";
 		HashMap<String, String> tempMap;
+		List<String> line;
 		for(int lineNumber : bookMap.keySet()){
-			List<String> line = bookMap.get(lineNumber);
+			line = bookMap.get(lineNumber);
 			for(String word : line){
 				if(fullWordMap.containsKey(word)){
 					tempMap = fullWordMap.get(word);
