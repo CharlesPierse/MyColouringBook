@@ -5,7 +5,6 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-//import com.sun.prism.paint.Color;
 
 public class image {
 	
@@ -25,7 +24,7 @@ public class image {
 		    		img.setRGB(x, y, col);
 		    	}
 		    }
-		    textImage text = new textImage("Goldie");
+		    textImage text = new textImage("Charles");
 		    BufferedImage txt = text.getTextImage();
 		    for(int x = 0; x<txt.getWidth();x++){
 		    	for(int y = 0;y<txt.getHeight();y++){

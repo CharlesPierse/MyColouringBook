@@ -129,6 +129,7 @@ public class BasicBookReaderNeedsUpdating {
 		stopSet.add("But");
 		stopSet.add("but");
 		stopSet.add("~");
+		stopSet.add("_");
 
 	}
 	int pageWordLimit = 350;
