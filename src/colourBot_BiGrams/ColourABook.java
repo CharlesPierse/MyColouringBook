@@ -6,8 +6,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
-
-import BasicBookReader.BasicBookReaderNeedsUpdating;
+import BasicBookReader.*;
 
 public class ColourABook {
 
@@ -67,6 +66,5 @@ public class ColourABook {
 		bookColourer.fillMap();
 		bookColourer.bookMap = basicBookReader.getWordMap();
 		System.out.println(bookColourer.colourBook());
-		
 	}
 }

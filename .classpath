@@ -3,12 +3,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/lingpipe-4.1.0.jar"/>
-	<classpathentry kind="lib" path="/TwitterBot_Project/lib/.DS_Store"/>
-	<classpathentry kind="lib" path="/TwitterBot_Project/lib/readme-libs.txt"/>
-	<classpathentry kind="lib" path="/TwitterBot_Project/lib/twitter4j-async-4.0.2.jar"/>
-	<classpathentry kind="lib" path="/TwitterBot_Project/lib/twitter4j-core-4.0.2.jar"/>
-	<classpathentry kind="lib" path="/TwitterBot_Project/lib/twitter4j-examples-4.0.2.jar"/>
-	<classpathentry kind="lib" path="/TwitterBot_Project/lib/twitter4j-media-support-4.0.2.jar"/>
-	<classpathentry kind="lib" path="/TwitterBot_Project/lib/twitter4j-stream-4.0.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

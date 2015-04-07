@@ -11,7 +11,6 @@ import com.aliasi.tokenizer.*;
 
 
 public class BasicBookReaderNeedsUpdating {
-	private int wordCount = 0;
 
 	Set<String> stopSet = new HashSet<String>();
 	{
@@ -129,15 +128,8 @@ public class BasicBookReaderNeedsUpdating {
 		stopSet.add("When");
 		stopSet.add("But");
 		stopSet.add("but");
-<<<<<<< Updated upstream
 		stopSet.add("~");
 
-=======
-		stopSet.add("it");
-		stopSet.add("It");
-		
-		
->>>>>>> Stashed changes
 	}
 	int pageWordLimit = 350;
 	HashMap<Integer, List<String>> wordMap = new HashMap<Integer, List<String>>();
@@ -173,14 +165,8 @@ public class BasicBookReaderNeedsUpdating {
 						Tokenizer tokenizer = stf.tokenizer(line.toCharArray(),0,line.length());
 						tokenizer.tokenize(tokenList,whiteList);
 						currentWordTotal += line.split(" ").length;
-<<<<<<< Updated upstream
 						if(currentWordTotal >= pageWordLimit){
 							wordMap.put(pageNumber, tokenList);
-=======
-						if(currentWordTotal >= lpt.pageWordLimit){
-							map.put(pageNumber, tokenList);
-							lpt.wordCount += currentWordTotal;
->>>>>>> Stashed changes
 							currentWordTotal = 0;
 							pageNumber++;
 							tokenList = new ArrayList<String>();
