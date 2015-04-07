@@ -12,11 +12,17 @@ import javax.swing.JOptionPane;
 
 import twitter4j.JSONObject;
 
-public class Image_reader {
+public class BookCoverRetrieve {
+	
 
     public static void main(String[] args) {
+    	String bookName = "#fffe00";
+    	//String author = "Bram Stoker";
+    	//author = author.replaceAll(" ", "_").toLowerCase();
+    	bookName = bookName.replaceAll(" ", "_").toLowerCase();
+    	System.out.println(bookName);
         try{
-            URL url = new URL("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q=Godfather");
+            URL url = new URL("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+bookName+"book");
             URLConnection connection = url.openConnection();
 
             String line;
