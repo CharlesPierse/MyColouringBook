@@ -40,8 +40,9 @@ public class ColourABook {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String colourBook(){
+		int i = 0;
 		ColourBlender blender = new ColourBlender();
 		String currentMix = "";
 		HashMap<String, String> tempMap;
@@ -52,7 +53,10 @@ public class ColourABook {
 					tempMap = fullWordMap.get(word);
 					for(String hex : tempMap.values()){
 						currentMix = blender.colourBlend(currentMix, hex);
-						System.out.println(currentMix);
+						i++;
+						if(i%100==0){
+							System.out.println(currentMix);
+						}
 					}
 				}
 			}
