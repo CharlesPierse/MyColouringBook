@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 //import com.sun.prism.paint.Color;
 
+
 public class image {
 	
 	private BufferedImage img = null;
@@ -17,7 +18,7 @@ public class image {
 		    img = ImageIO.read(new File(st));
 		    int r = 255;
 		    int g = 215;
-		    int b = 0;
+		    int b = 255;
 		    int a = 255;
 		    int col = (a << 24) | (r << 16) | (g << 8) | b;
 		    for(int x = 452;x<818;x++){
