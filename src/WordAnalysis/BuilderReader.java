@@ -141,7 +141,7 @@ public class BuilderReader {
 	HashMap<Integer, List<String>> wordMap = new HashMap<Integer, List<String>>();
 
 	public static void main(String args[]){
-		BasicBookReaderNeedsUpdating bbr = new BasicBookReaderNeedsUpdating(); //lpt = ling pipe test
+		BuilderReader bbr = new BuilderReader(); //lpt = ling pipe test
 		bbr.readBook();
 		for(int key : bbr.wordMap.keySet()){
 			System.out.println(key + "\t" + bbr.wordMap.get(key));
