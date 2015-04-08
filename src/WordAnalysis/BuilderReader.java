@@ -12,7 +12,9 @@ import java.util.Set;
 import com.aliasi.io.FileLineReader;
 
 public class BuilderReader {
-
+	
+	
+	
 	Set<String> ignoredWords = new HashSet<String>();
 	{
 		ignoredWords.add("a");
