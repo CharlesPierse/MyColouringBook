@@ -43,36 +43,10 @@ public class textImage {
         g2d.setColor(Color.BLACK);
         g2d.drawString(text, 0, fm.getAscent());
         g2d.dispose();
-        try {
-            ImageIO.write(img, "png", new File("resources/tweetimages/Text.png"));
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
 
     }
 	
-	public BufferedImage getScaledImage(BufferedImage image, int width, int height) {
-		try {
-		    int imageWidth  = image.getWidth();
-		    int imageHeight = image.getHeight();
-
-		    double scaleX = (double)width/imageWidth;
-		    double scaleY = (double)height/imageHeight;
-		    AffineTransform scaleTransform = AffineTransform.getScaleInstance(scaleX, scaleY);
-		    AffineTransformOp bilinearScaleOp = new AffineTransformOp(scaleTransform, AffineTransformOp.TYPE_BILINEAR);
-
-		    return bilinearScaleOp.filter(image, new BufferedImage(width, height, image.getType()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return image;
-	}
-	
 	public BufferedImage getTextImage(){
 		return img;
-	}
-	public static void main(String[] args) throws IOException{
-//		textImage text = new textImage("yo yo");
-		//ImageIO.write(text.getScaledImage(ImageIO.read(new File("resources/tweetimages/Text.png")), 366, 494), "PNG", new File("resources/tweetimages/ResizedText.png"));
 	}
 }

@@ -24,7 +24,6 @@ public class BookCoverRetrieve {
         try{
         	
             URL url = new URL("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+bookName+"_book");
-            System.out.println(url);
             URLConnection connection = url.openConnection();
         	
 
@@ -39,8 +38,8 @@ public class BookCoverRetrieve {
             String imageUrl = json.getJSONObject("responseData").getJSONArray("results").getJSONObject(0).getString("url");
 
             BufferedImage image = ImageIO.read(new URL(imageUrl));
-            JOptionPane.showMessageDialog(null, "", "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
-            System.out.println(image.getType());
+            //JOptionPane.showMessageDialog(null, "", "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
+            //System.out.println(image.getType());
             return image;
             
         } catch(Exception e){
@@ -60,12 +59,5 @@ public class BookCoverRetrieve {
             return image;
         }
         
-    }
-	
-	
-    public static void main(String[] args) {
-    	
-    	BookCoverRetrieve bcr = new BookCoverRetrieve();
-    	bcr.getBookImage("The chamber of secrets", "James Joyce");
     }
 }
