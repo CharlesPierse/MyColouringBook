@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -165,8 +166,10 @@ public class BuilderReader {
 				frequencyMap.put(previousWord, tempMap);
 			}
 			else{
-				tempMap.put(currentWord, 1);
-				frequencyMap.put(previousWord, tempMap);
+				if(!ignoredWords.contains(previousWord)){
+					tempMap.put(currentWord, 1);
+					frequencyMap.put(previousWord, tempMap);
+				}
 			}
 		}
 		else if(frequencyMap.containsKey(currentWord)){
@@ -177,17 +180,21 @@ public class BuilderReader {
 				frequencyMap.put(currentWord, tempMap);
 			}
 			else{
-				tempMap.put(nextWord, 1);
-				frequencyMap.put(currentWord, tempMap);
+				if(!ignoredWords.contains(nextWord)){
+					tempMap.put(nextWord, 1);
+					frequencyMap.put(currentWord, tempMap);
+				}
 			}
 		}
 		else{
-			tempMap = new HashMap<String, Integer>();
-			tempMap.put(currentWord, 1);
-			frequencyMap.put(previousWord, tempMap);
-			tempMap = new HashMap<String, Integer>();
-			tempMap.put(nextWord, 1);
-			frequencyMap.put(currentWord, tempMap);
+			if(!ignoredWords.contains(previousWord) && !ignoredWords.contains(nextWord)){
+				tempMap = new HashMap<String, Integer>();
+				tempMap.put(currentWord, 1);
+				frequencyMap.put(previousWord, tempMap);
+				tempMap = new HashMap<String, Integer>();
+				tempMap.put(nextWord, 1);
+				frequencyMap.put(currentWord, tempMap);
+			}
 		}
 	}
 
@@ -226,18 +233,37 @@ public class BuilderReader {
 		}
 
 	}
+	
+	public void saveMap(){
+		PrintWriter writer;
+		try {
+			writer = new PrintWriter("resources" + File.separator + "word_colour_map.txt", "UTF-8");
+			for(String outterKey : frequencyMap.keySet()){
+				for(String innerKey : frequencyMap.get(outterKey).keySet()){
+					writer.println(outterKey + "\t" + innerKey + "\t" + frequencyMap.get(outterKey).get(innerKey));
+				}
+			}
+			writer.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void main(String args[]){
 		BuilderReader reader = new BuilderReader();
 		reader.readBasicColours();
+		int highest = 0;
+		String i = "";
+		String o = "";
 		for(int currentBook = 1; currentBook <= reader.lastBookNumber; currentBook++){
 			reader.readBook(currentBook);
 		}
-		for(String outterKey : reader.frequencyMap.keySet()){
-			HashMap<String, Integer> currentMap = reader.frequencyMap.get(outterKey);
-			for(String innerKey : currentMap.keySet()){
-				System.out.println(outterKey + "\t" + innerKey + "\t" + currentMap.get(innerKey));
-			}
-		}
+//		for(String outterKey : reader.frequencyMap.keySet()){
+//			HashMap<String, Integer> currentMap = reader.frequencyMap.get(outterKey);
+//			for(String innerKey : currentMap.keySet()){
+//				System.out.println(outterKey + "\t" + innerKey + "\t" + currentMap.get(innerKey));
+//			}
+//		}
+		reader.saveMap();
 	}
 }
