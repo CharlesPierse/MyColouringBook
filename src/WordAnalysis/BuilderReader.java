@@ -16,24 +16,6 @@ import com.aliasi.tokenizer.Tokenizer;
 import com.aliasi.tokenizer.TokenizerFactory;
 
 public class BuilderReader {
-	
-	Set<String> colourSet= new HashSet<String>();
-	{
-		colourSet.add("red");
-		colourSet.add("orange");
-		colourSet.add("yellow");
-		colourSet.add("green");
-		colourSet.add("blue");
-		colourSet.add("indigo");
-		colourSet.add("violet");
-		colourSet.add("ivory");
-		colourSet.add("beige");
-		colourSet.add("silver");
-		colourSet.add("gray");
-		colourSet.add("black");
-		colourSet.add("white");
-		colourSet.add("navy");
-	}
 
 	Set<String> stopSet = new HashSet<String>();
 	{
@@ -167,7 +149,7 @@ public class BuilderReader {
 	}
 
 	public void readBook(){
-		File file = new File("resources" + File.separator + "books" + File.separator);
+		File file = new File("resources" + File.separator + "TextToLexer");
 		boolean allowRead = false;
 		TokenizerFactory TOKENIZER_FACTORY = IndoEuropeanTokenizerFactory.INSTANCE;
 		StopTokenizerFactory stf = new StopTokenizerFactory(TOKENIZER_FACTORY, stopSet);
