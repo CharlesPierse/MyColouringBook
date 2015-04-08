@@ -26,8 +26,8 @@ public class BuilderReader {
 		colours.add("white");
 		colours.add("navy");
 	}
-	
-	
+
+
 	Set<String> ignoredWords = new HashSet<String>();
 	{
 		ignoredWords.add("a");
@@ -175,7 +175,9 @@ public class BuilderReader {
 							splitLine[i] = splitLine[i].replaceAll("[^a-zA-Z ]", "");//should remove all shitespaces and punctuation.
 						}
 						for(int i = 1; i < splitLine.length-1; i++){
-							bigramCheck(splitLine[i-1], splitLine[i], splitLine[i+1]);
+							if(colours.contains(splitLine[i])){
+								bigramCheck(splitLine[i-1], splitLine[i], splitLine[i+1]);
+							}
 						}
 					}
 				}
