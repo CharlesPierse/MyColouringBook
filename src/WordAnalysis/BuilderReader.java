@@ -158,14 +158,12 @@ public class BuilderReader {
 					}
 					else{
 						String[] splitLine = line.toLowerCase().split(" ");
-						for(String word : splitLine){
-							System.out.print(word + "\t");
-							word = word.replaceAll("[^a-zA-Z ]", "");//should remove all shitespaces and punctuation.
-							System.out.print(word + "\n");
+						for(int i = 1; i < splitLine.length-1; i++){
+							splitLine[i] = splitLine[i].replaceAll("[^a-zA-Z ]", "");//should remove all shitespaces and punctuation.
 						}
-//						for(int i = 1; i < splitLine.length-1; i++){
-//							bigramCheck(splitLine[i-1], splitLine[i], splitLine[i+1]);
-//						}
+						for(int i = 1; i < splitLine.length-1; i++){
+							bigramCheck(splitLine[i-1], splitLine[i], splitLine[i+1]);
+						}
 					}
 				}
 				else{
