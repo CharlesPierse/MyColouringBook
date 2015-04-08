@@ -146,7 +146,6 @@ public class BasicBookReaderNeedsUpdating {
 	public void readBook(){
 		File file = new File("resources" + File.separator + "TextToLexer");
 		boolean allowRead = false;
-
 		TokenizerFactory TOKENIZER_FACTORY = IndoEuropeanTokenizerFactory.INSTANCE;
 		StopTokenizerFactory stf = new StopTokenizerFactory(TOKENIZER_FACTORY, stopSet);
 
