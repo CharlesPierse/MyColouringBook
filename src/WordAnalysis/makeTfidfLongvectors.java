@@ -190,23 +190,3 @@ return initDocMatrix;
 }
  
 }
-
-VamshiKrishnaGaddam commented on 30 Aug 2014
-
-How to execute this. Where i would place the file path.
-roshanrathod commented on 6 Nov 2014
-
-Function : getIdf(String word, int numDocsContainingWord)
-
-Values passed : getIdf(word, (Integer)vocabAndFreq.get(word));
-
-vocabAndFreq is vocab and its frequency eg. test,11
-
-for idf you need document frequency. How will this code [ (Integer)vocabAndFreq.get(word)) ] work? It gives you no. of occurences/frequency. what if word is repeated 5 times in one document? In that case, you df would be incorrect if you use the code above.
-
-Correct me, if I'm wrong.
-
-    Write
-    Preview
-
-Parsed as Markdown Edit in fullscreen
