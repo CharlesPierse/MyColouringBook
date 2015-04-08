@@ -140,6 +140,7 @@ public class BuilderReader {
 	private int lastBookNumber = 38;
 	private HashMap<String, HashMap<String, Integer>> frequencyMap = new HashMap<String, HashMap<String, Integer>>();
 	private HashMap<String, String> basicColourMap = new HashMap<String, String>();
+	private Set<String> vocab = new HashSet<String>();
 
 	private void readBasicColours(){
 		String line = "";
@@ -155,48 +156,48 @@ public class BuilderReader {
 		}
 	}
 
-	private void bigramCheck(String previousWord, String currentWord, String nextWord){
-		HashMap<String, Integer> tempMap;
-		int tempFrequency = 0;
-		if(frequencyMap.containsKey(previousWord)){
-			tempMap = frequencyMap.get(previousWord);
-			if(tempMap.containsKey(currentWord)){
-				tempFrequency = tempMap.get(currentWord)+1;
-				tempMap.put(currentWord, tempFrequency);
-				frequencyMap.put(previousWord, tempMap);
-			}
-			else{
-				if(!ignoredWords.contains(previousWord)){
-					tempMap.put(currentWord, 1);
-					frequencyMap.put(previousWord, tempMap);
-				}
-			}
-		}
-		else if(frequencyMap.containsKey(currentWord)){
-			tempMap = frequencyMap.get(currentWord);
-			if(tempMap.containsKey(nextWord)){
-				tempFrequency = tempMap.get(nextWord)+1;
-				tempMap.put(nextWord, tempFrequency);
-				frequencyMap.put(currentWord, tempMap);
-			}
-			else{
-				if(!ignoredWords.contains(nextWord)){
-					tempMap.put(nextWord, 1);
-					frequencyMap.put(currentWord, tempMap);
-				}
-			}
-		}
-		else{
-			if(!ignoredWords.contains(previousWord) && !ignoredWords.contains(nextWord)){
-				tempMap = new HashMap<String, Integer>();
-				tempMap.put(currentWord, 1);
-				frequencyMap.put(previousWord, tempMap);
-				tempMap = new HashMap<String, Integer>();
-				tempMap.put(nextWord, 1);
-				frequencyMap.put(currentWord, tempMap);
-			}
-		}
-	}
+	//	private void bigramCheck(String previousWord, String currentWord, String nextWord){
+	//		HashMap<String, Integer> tempMap;
+	//		int tempFrequency = 0;
+	//		if(frequencyMap.containsKey(previousWord)){
+	//			tempMap = frequencyMap.get(previousWord);
+	//			if(tempMap.containsKey(currentWord)){
+	//				tempFrequency = tempMap.get(currentWord)+1;
+	//				tempMap.put(currentWord, tempFrequency);
+	//				frequencyMap.put(previousWord, tempMap);
+	//			}
+	//			else{
+	//				if(!ignoredWords.contains(previousWord)){
+	//					tempMap.put(currentWord, 1);
+	//					frequencyMap.put(previousWord, tempMap);
+	//				}
+	//			}
+	//		}
+	//		else if(frequencyMap.containsKey(currentWord)){
+	//			tempMap = frequencyMap.get(currentWord);
+	//			if(tempMap.containsKey(nextWord)){
+	//				tempFrequency = tempMap.get(nextWord)+1;
+	//				tempMap.put(nextWord, tempFrequency);
+	//				frequencyMap.put(currentWord, tempMap);
+	//			}
+	//			else{
+	//				if(!ignoredWords.contains(nextWord)){
+	//					tempMap.put(nextWord, 1);
+	//					frequencyMap.put(currentWord, tempMap);
+	//				}
+	//			}
+	//		}
+	//		else{
+	//			if(!ignoredWords.contains(previousWord) && !ignoredWords.contains(nextWord)){
+	//				tempMap = new HashMap<String, Integer>();
+	//				tempMap.put(currentWord, 1);
+	//				frequencyMap.put(previousWord, tempMap);
+	//				tempMap = new HashMap<String, Integer>();
+	//				tempMap.put(nextWord, 1);
+	//				frequencyMap.put(currentWord, tempMap);
+	//			}
+	//		}
+	//	}
 
 	public void readBook(int bookNumber){
 		File file = new File(filePath + bookNumber + fileExtension);
@@ -212,13 +213,29 @@ public class BuilderReader {
 					else{
 						String[] splitLine = line.toLowerCase().split(" ");
 						for(int i = 0; i < splitLine.length; i++){
-							splitLine[i] = splitLine[i].replaceAll("[^a-zA-Z ]", "");//should remove all shitespaces and punctuation.
-						}
-						for(int i = 1; i < splitLine.length-1; i++){
-							if(colours.contains(splitLine[i])){
-								bigramCheck(splitLine[i-1], splitLine[i], splitLine[i+1]);
+							splitLine[i] = splitLine[i].replaceAll("[^a-zA-Z]", " ");//should remove all shitespaces and punctuation.
+							if(splitLine[i].split(" ").length > 1){
+								String tokens[] = splitLine[i].split(" ");
+								tokens[0].replaceAll("[^a-zA-Z]", "");
+								tokens[1].replaceAll("[^a-zA-Z]", "");
+								if(tokens[0] != ""){
+									vocab.add(tokens[0]);
+								}
+								else if(tokens[1] != ""){
+									vocab.add(tokens[1]);
+								}
 							}
+							else{
+								vocab.add(splitLine[i].replaceAll("[^a-zA-Z]", ""));
+							}
+
 						}
+						//						for(int i = 1; i < splitLine.length-1; i++){
+						//							//							if(colours.contains(splitLine[i])){
+						//							vocab.add(splitLine[i]);
+						//							//								bigramCheck(splitLine[i-1], splitLine[i], splitLine[i+1]);
+						//							//							}
+						//						}
 					}
 				}
 				else{
@@ -233,15 +250,18 @@ public class BuilderReader {
 		}
 
 	}
-	
+
 	public void saveMap(){
 		PrintWriter writer;
 		try {
 			writer = new PrintWriter("resources" + File.separator + "word_colour_map.txt", "UTF-8");
-			for(String outterKey : frequencyMap.keySet()){
-				for(String innerKey : frequencyMap.get(outterKey).keySet()){
-					writer.println(outterKey + "\t" + innerKey + "\t" + frequencyMap.get(outterKey).get(innerKey));
-				}
+			//			for(String outterKey : frequencyMap.keySet()){
+			//				for(String innerKey : frequencyMap.get(outterKey).keySet()){
+			//					writer.println(outterKey + "\t" + innerKey + "\t" + frequencyMap.get(outterKey).get(innerKey));
+			//				}
+			//			}
+			for(String s : vocab){
+				writer.println(s);
 			}
 			writer.close();
 		} catch (Exception e) {
@@ -258,12 +278,12 @@ public class BuilderReader {
 		for(int currentBook = 1; currentBook <= reader.lastBookNumber; currentBook++){
 			reader.readBook(currentBook);
 		}
-//		for(String outterKey : reader.frequencyMap.keySet()){
-//			HashMap<String, Integer> currentMap = reader.frequencyMap.get(outterKey);
-//			for(String innerKey : currentMap.keySet()){
-//				System.out.println(outterKey + "\t" + innerKey + "\t" + currentMap.get(innerKey));
-//			}
-//		}
+		//		for(String outterKey : reader.frequencyMap.keySet()){
+		//			HashMap<String, Integer> currentMap = reader.frequencyMap.get(outterKey);
+		//			for(String innerKey : currentMap.keySet()){
+		//				System.out.println(outterKey + "\t" + innerKey + "\t" + currentMap.get(innerKey));
+		//			}
+		//		}
 		reader.saveMap();
 	}
 }
