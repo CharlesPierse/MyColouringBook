@@ -158,7 +158,7 @@ public class BuilderReader {
 					}
 					else{
 						String[] splitLine = line.toLowerCase().split(" ");
-						for(int i = 1; i < splitLine.length-1; i++){
+						for(int i = 0; i < splitLine.length; i++){
 							splitLine[i] = splitLine[i].replaceAll("[^a-zA-Z ]", "");//should remove all shitespaces and punctuation.
 						}
 						for(int i = 1; i < splitLine.length-1; i++){
@@ -182,9 +182,8 @@ public class BuilderReader {
 	public static void main(String args[]){
 		BuilderReader reader = new BuilderReader();
 		reader.readBasicColours();
-		reader.readBook(1);
-//		for(int currentBook = 1; currentBook <= reader.lastBookNumber; currentBook++){
-//			reader.readBook(currentBook);
-//		}
+		for(int currentBook = 1; currentBook <= reader.lastBookNumber; currentBook++){
+			reader.readBook(currentBook);
+		}
 	}
 }
