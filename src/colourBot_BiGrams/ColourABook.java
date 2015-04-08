@@ -48,8 +48,6 @@ public class ColourABook {
 		List<String> line;
 		for(int lineNumber : bookMap.keySet()){
 			line = bookMap.get(lineNumber);
-			System.out.println(lineNumber + "=>\t" +line);
-			System.out.println(currentMix);
 			for(String word : line){
 				if(fullWordMap.containsKey(word)){
 					tempMap = fullWordMap.get(word);
