@@ -12,7 +12,20 @@ import java.util.Set;
 import com.aliasi.io.FileLineReader;
 
 public class BuilderReader {
-	
+	Set<String> colours = new HashSet<String>();{
+		colours.add("red");
+		colours.add("orange");
+		colours.add("yellow");
+		colours.add("green");
+		colours.add("blue");
+		colours.add("indigo");
+		colours.add("beige");
+		colours.add("silver");
+		colours.add("gray");
+		colours.add("black");
+		colours.add("white");
+		colours.add("navy");
+	}
 	
 	
 	Set<String> ignoredWords = new HashSet<String>();
