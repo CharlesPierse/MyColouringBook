@@ -58,3 +58,19 @@ blendChapters{
 	//iterate through data structure holding chapter colours and blend them.
 	//return result
 }
+
+
+
+
+
+/*
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Thoughts:
+	
+1/	if the title contains a colour and the end result is not the same/similar to that colour the bot should say:
+		"XYZ turns out its not X, it is Q."
+	or the the opposite:
+		"As expect XYZ is the colour Z."
+
+
+*/
