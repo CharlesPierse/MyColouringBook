@@ -1,180 +1,166 @@
 package WordAnalysis;
 
+import java.io.BufferedReader;
 import java.io.File;
-import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import BasicBookReader.BasicBookReaderNeedsUpdating;
-
 import com.aliasi.io.FileLineReader;
-import com.aliasi.tokenizer.IndoEuropeanTokenizerFactory;
-import com.aliasi.tokenizer.StopTokenizerFactory;
-import com.aliasi.tokenizer.Tokenizer;
-import com.aliasi.tokenizer.TokenizerFactory;
 
 public class BuilderReader {
 
-	Set<String> stopSet = new HashSet<String>();
+	Set<String> ignoredWords = new HashSet<String>();
 	{
-		stopSet.add("a");
-		stopSet.add("be");
-		stopSet.add("had");
-		stopSet.add("it");
-		stopSet.add("only");
-		stopSet.add("she");
-		stopSet.add("was");
-		stopSet.add("about");
-		stopSet.add("because");
-		stopSet.add("has");
-		stopSet.add("its");
-		stopSet.add("of");
-		stopSet.add("some");
-		stopSet.add("we");
-		stopSet.add("after");
-		stopSet.add("been");
-		stopSet.add("have");
-		stopSet.add("last");
-		stopSet.add("on");
-		stopSet.add("such");
-		stopSet.add("were");
-		stopSet.add("all");
-		stopSet.add("but");
-		stopSet.add("he");
-		stopSet.add("more");
-		stopSet.add("one");
-		stopSet.add("than");
-		stopSet.add("when");
-		stopSet.add("also");
-		stopSet.add("by");
-		stopSet.add("her");
-		stopSet.add("most");
-		stopSet.add("or");
-		stopSet.add("that");
-		stopSet.add("which");
-		stopSet.add("an");
-		stopSet.add("can");
-		stopSet.add("his");
-		stopSet.add("mr");
-		stopSet.add("other");
-		stopSet.add("the");
-		stopSet.add("who");
-		stopSet.add("any");
-		stopSet.add("co");
-		stopSet.add("if");
-		stopSet.add("mrs");
-		stopSet.add("out");
-		stopSet.add("their");
-		stopSet.add("will");
-		stopSet.add("and");
-		stopSet.add("corp");
-		stopSet.add("in");
-		stopSet.add("ms");
-		stopSet.add("over");
-		stopSet.add("there");
-		stopSet.add("with");
-		stopSet.add("are");
-		stopSet.add("could");
-		stopSet.add("inc");
-		stopSet.add("mz");
-		stopSet.add("s");
-		stopSet.add("they");
-		stopSet.add("would");
-		stopSet.add("as");
-		stopSet.add("for");
-		stopSet.add("into");
-		stopSet.add("no");
-		stopSet.add("so");
-		stopSet.add("this");
-		stopSet.add("up");
-		stopSet.add("at");
-		stopSet.add("from");
-		stopSet.add("is");
-		stopSet.add("not");
-		stopSet.add("says");
-		stopSet.add("to");
-		stopSet.add(".");
-		stopSet.add(",");
-		stopSet.add("!");
-		stopSet.add("my");
-		stopSet.add("I");
-		stopSet.add("you");
-		stopSet.add("yours");
-		stopSet.add("thou");
-		stopSet.add("-");
-		stopSet.add("his");
-		stopSet.add("hers");
-		stopSet.add("me");
-		stopSet.add("he");
-		stopSet.add("she");
-		stopSet.add(",");
-		stopSet.add("\"");
-		stopSet.add("'");
-		stopSet.add("?");
-		stopSet.add("He");
-		stopSet.add("She");
-		stopSet.add("His");
-		stopSet.add("Hers");
-		stopSet.add("Ours");
-		stopSet.add("ours");
-		stopSet.add("a");
-		stopSet.add("A");
-		stopSet.add("--");
-		stopSet.add(";");
-		stopSet.add(":");
-		stopSet.add("am");
-		stopSet.add("no");
-		stopSet.add("No");
-		stopSet.add("(");
-		stopSet.add(")");
-		stopSet.add("Where");
-		stopSet.add("When");
-		stopSet.add("But");
-		stopSet.add("but");
-		stopSet.add("~");
-		stopSet.add("_");
+		ignoredWords.add("a");
+		ignoredWords.add("be");
+		ignoredWords.add("had");
+		ignoredWords.add("it");
+		ignoredWords.add("only");
+		ignoredWords.add("she");
+		ignoredWords.add("was");
+		ignoredWords.add("about");
+		ignoredWords.add("because");
+		ignoredWords.add("has");
+		ignoredWords.add("its");
+		ignoredWords.add("of");
+		ignoredWords.add("some");
+		ignoredWords.add("we");
+		ignoredWords.add("after");
+		ignoredWords.add("been");
+		ignoredWords.add("have");
+		ignoredWords.add("last");
+		ignoredWords.add("on");
+		ignoredWords.add("such");
+		ignoredWords.add("were");
+		ignoredWords.add("all");
+		ignoredWords.add("but");
+		ignoredWords.add("he");
+		ignoredWords.add("more");
+		ignoredWords.add("one");
+		ignoredWords.add("than");
+		ignoredWords.add("when");
+		ignoredWords.add("also");
+		ignoredWords.add("by");
+		ignoredWords.add("her");
+		ignoredWords.add("most");
+		ignoredWords.add("or");
+		ignoredWords.add("that");
+		ignoredWords.add("which");
+		ignoredWords.add("an");
+		ignoredWords.add("can");
+		ignoredWords.add("his");
+		ignoredWords.add("mr");
+		ignoredWords.add("other");
+		ignoredWords.add("the");
+		ignoredWords.add("who");
+		ignoredWords.add("any");
+		ignoredWords.add("co");
+		ignoredWords.add("if");
+		ignoredWords.add("mrs");
+		ignoredWords.add("out");
+		ignoredWords.add("their");
+		ignoredWords.add("will");
+		ignoredWords.add("and");
+		ignoredWords.add("corp");
+		ignoredWords.add("in");
+		ignoredWords.add("ms");
+		ignoredWords.add("over");
+		ignoredWords.add("there");
+		ignoredWords.add("with");
+		ignoredWords.add("are");
+		ignoredWords.add("could");
+		ignoredWords.add("inc");
+		ignoredWords.add("mz");
+		ignoredWords.add("s");
+		ignoredWords.add("they");
+		ignoredWords.add("would");
+		ignoredWords.add("as");
+		ignoredWords.add("for");
+		ignoredWords.add("into");
+		ignoredWords.add("no");
+		ignoredWords.add("so");
+		ignoredWords.add("this");
+		ignoredWords.add("up");
+		ignoredWords.add("at");
+		ignoredWords.add("from");
+		ignoredWords.add("is");
+		ignoredWords.add("not");
+		ignoredWords.add("says");
+		ignoredWords.add("to");
+		ignoredWords.add("my");
+		ignoredWords.add("I");
+		ignoredWords.add("you");
+		ignoredWords.add("yours");
+		ignoredWords.add("thou");
+		ignoredWords.add("his");
+		ignoredWords.add("hers");
+		ignoredWords.add("me");
+		ignoredWords.add("he");
+		ignoredWords.add("she");
+		ignoredWords.add("He");
+		ignoredWords.add("She");
+		ignoredWords.add("His");
+		ignoredWords.add("Hers");
+		ignoredWords.add("Ours");
+		ignoredWords.add("ours");
+		ignoredWords.add("a");
+		ignoredWords.add("A");
+		ignoredWords.add("am");
+		ignoredWords.add("no");
+		ignoredWords.add("No");
+		ignoredWords.add("Where");
+		ignoredWords.add("When");
+		ignoredWords.add("But");
+		ignoredWords.add("but");
 
 	}
-	int pageWordLimit = 350;
-	HashMap<Integer, List<String>> wordMap = new HashMap<Integer, List<String>>();
 
-	public static void main(String args[]){
-		BuilderReader bbr = new BuilderReader(); //lpt = ling pipe test
-		bbr.readBook();
-		for(int key : bbr.wordMap.keySet()){
-			System.out.println(key + "\t" + bbr.wordMap.get(key));
+	private String filePath = "resources" + File.separator +"books" + File.separator + "Book_";
+	private String fileExtension = ".txt";
+	private int lastBookNumber = 38;
+	private HashMap<Integer, List<String>> frequencyMap = new HashMap<Integer, List<String>>();
+	private HashMap<String, String> basicColourMap = new HashMap<String, String>();
+
+	private void readBasicColours(){
+		String line = "";
+		try{
+			FileInputStream fis=new FileInputStream(filePath);
+			BufferedReader br=new BufferedReader(new InputStreamReader(fis,"UTF-8"));
+			while((line=br.readLine())!=null){
+				String token[] = line.toLowerCase().split("\t");
+				basicColourMap.put(token[0], token[1]);
+			}
+		} catch(Exception e){
+			e.printStackTrace();
 		}
 	}
 
-	public void readBook(){
-		File file = new File("resources" + File.separator + "TextToLexer");
+	private void bigramCheck(String previousWord, String currentWord, String nextWord){
+		System.out.println(previousWord + "\t" + currentWord + "\t" + nextWord);
+	}
+
+	public void readBook(int bookNumber){
+		File file = new File(filePath + bookNumber + fileExtension);
 		boolean allowRead = false;
-		TokenizerFactory TOKENIZER_FACTORY = IndoEuropeanTokenizerFactory.INSTANCE;
-		StopTokenizerFactory stf = new StopTokenizerFactory(TOKENIZER_FACTORY, stopSet);
 
-		List<String> tokenList = new ArrayList<String>();
-		List<String> whiteList = new ArrayList<String>();
-
-		int pageNumber = 0;
-		int currentWordTotal = 0;
 		try{
-			FileLineReader lines = new FileLineReader(file,"UTF-8");
-			for (String line : lines) {
+			FileLineReader book = new FileLineReader(file,"UTF-8");
+			for (String line : book) {
 				if(allowRead){
-					if(line.contains("***END OF THE PROJECT GUTENBERG EBOOK")){
+					if(line.contains("***")){
 						allowRead = false;
 					}
 					else{
-						Tokenizer tokenizer = stf.tokenizer(line.toCharArray(),0,line.length());
-						tokenizer.tokenize(tokenList,whiteList);
-						currentWordTotal += line.split(" ").length;
-						if(currentWordTotal >= pageWordLimit){
-							wordMap.put(pageNumber, tokenList);
-							currentWordTotal = 0;
-							pageNumber++;
-							tokenList = new ArrayList<String>();
+						String[] splitLine = line.toLowerCase().split(" ");
+						for(String word : splitLine){
+							word.replaceAll("\\W", "");//should remove all shitespaces and punctuation.
+						}
+						for(int i = 1; i < splitLine.length-1; i++){
+							bigramCheck(splitLine[i-1], splitLine[i], splitLine[i+1]);
 						}
 					}
 				}
@@ -184,15 +170,19 @@ public class BuilderReader {
 					}
 				}
 			}
-			wordMap.put(pageNumber, tokenList);
-			lines.close();
+			book.close();
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-	
+
 	}
 
-	public HashMap<Integer, List<String>> getWordMap(){
-		return wordMap;
+	public static void main(String args[]){
+		BuilderReader reader = new BuilderReader();
+		reader.readBasicColours();
+		reader.readBook(1);
+//		for(int currentBook = 1; currentBook <= reader.lastBookNumber; currentBook++){
+//			reader.readBook(currentBook);
+//		}
 	}
 }
