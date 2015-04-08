@@ -128,7 +128,7 @@ public class BuilderReader {
 	private void readBasicColours(){
 		String line = "";
 		try{
-			FileInputStream fis=new FileInputStream(filePath);
+			FileInputStream fis=new FileInputStream("resources" + File.separator + "base colours");
 			BufferedReader br=new BufferedReader(new InputStreamReader(fis,"UTF-8"));
 			while((line=br.readLine())!=null){
 				String token[] = line.toLowerCase().split("\t");
@@ -157,11 +157,13 @@ public class BuilderReader {
 					else{
 						String[] splitLine = line.toLowerCase().split(" ");
 						for(String word : splitLine){
-							word.replaceAll("\\W", "");//should remove all shitespaces and punctuation.
+							System.out.print(word + "\t");
+							word = word.replace(",", "");//should remove all shitespaces and punctuation.
+							System.out.print(word + "\n");
 						}
-						for(int i = 1; i < splitLine.length-1; i++){
-							bigramCheck(splitLine[i-1], splitLine[i], splitLine[i+1]);
-						}
+//						for(int i = 1; i < splitLine.length-1; i++){
+//							bigramCheck(splitLine[i-1], splitLine[i], splitLine[i+1]);
+//						}
 					}
 				}
 				else{
