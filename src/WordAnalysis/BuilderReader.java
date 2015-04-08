@@ -26,18 +26,7 @@ public class BuilderReader {
 		colours.add("white");
 		colours.add("navy");
 	}
-	
-	Set<String> joinerWords = new HashSet<String>();
-	{
-		joinerWords.add("for");
-		joinerWords.add("and");
-		joinerWords.add("nor");
-		joinerWords.add("but");
-		joinerWords.add("or");
-		joinerWords.add("yet");
-		joinerWords.add("so");
-	}
-	
+
 
 	Set<String> ignoredWords = new HashSet<String>();
 	{
@@ -63,6 +52,7 @@ public class BuilderReader {
 		ignoredWords.add("such");
 		ignoredWords.add("were");
 		ignoredWords.add("all");
+		ignoredWords.add("but");
 		ignoredWords.add("he");
 		ignoredWords.add("more");
 		ignoredWords.add("one");
@@ -89,6 +79,7 @@ public class BuilderReader {
 		ignoredWords.add("out");
 		ignoredWords.add("their");
 		ignoredWords.add("will");
+		ignoredWords.add("and");
 		ignoredWords.add("corp");
 		ignoredWords.add("in");
 		ignoredWords.add("ms");
@@ -103,8 +94,10 @@ public class BuilderReader {
 		ignoredWords.add("they");
 		ignoredWords.add("would");
 		ignoredWords.add("as");
+		ignoredWords.add("for");
 		ignoredWords.add("into");
 		ignoredWords.add("no");
+		ignoredWords.add("so");
 		ignoredWords.add("this");
 		ignoredWords.add("up");
 		ignoredWords.add("at");
@@ -136,14 +129,15 @@ public class BuilderReader {
 		ignoredWords.add("No");
 		ignoredWords.add("Where");
 		ignoredWords.add("When");
-		
+		ignoredWords.add("But");
+		ignoredWords.add("but");
 
 	}
 
 	private String filePath = "resources" + File.separator +"books" + File.separator + "Book_";
 	private String fileExtension = ".txt";
 	private int lastBookNumber = 38;
-	private HashMap<Integer, List<String>> frequencyMap = new HashMap<Integer, List<String>>();
+	private HashMap<String, HashMap<String, Integer>> frequencyMap = new HashMap<String, HashMap<String, Integer>>();
 	private HashMap<String, String> basicColourMap = new HashMap<String, String>();
 
 	private void readBasicColours(){
@@ -161,7 +155,40 @@ public class BuilderReader {
 	}
 
 	private void bigramCheck(String previousWord, String currentWord, String nextWord){
-		System.out.println(previousWord + "\t" + currentWord + "\t" + nextWord);
+		HashMap<String, Integer> tempMap;
+		int tempFrequency = 0;
+		if(frequencyMap.containsKey(previousWord)){
+			tempMap = frequencyMap.get(previousWord);
+			if(tempMap.containsKey(currentWord)){
+				tempFrequency = tempMap.get(currentWord)+1;
+				tempMap.put(currentWord, tempFrequency);
+				frequencyMap.put(previousWord, tempMap);
+			}
+			else{
+				tempMap.put(currentWord, 1);
+				frequencyMap.put(previousWord, tempMap);
+			}
+		}
+		else if(frequencyMap.containsKey(currentWord)){
+			tempMap = frequencyMap.get(currentWord);
+			if(tempMap.containsKey(nextWord)){
+				tempFrequency = tempMap.get(nextWord)+1;
+				tempMap.put(nextWord, tempFrequency);
+				frequencyMap.put(currentWord, tempMap);
+			}
+			else{
+				tempMap.put(nextWord, 1);
+				frequencyMap.put(currentWord, tempMap);
+			}
+		}
+		else{
+			tempMap = new HashMap<String, Integer>();
+			tempMap.put(currentWord, 1);
+			frequencyMap.put(previousWord, tempMap);
+			tempMap = new HashMap<String, Integer>();
+			tempMap.put(nextWord, 1);
+			frequencyMap.put(currentWord, tempMap);
+		}
 	}
 
 	public void readBook(int bookNumber){
@@ -203,11 +230,14 @@ public class BuilderReader {
 	public static void main(String args[]){
 		BuilderReader reader = new BuilderReader();
 		reader.readBasicColours();
-		int bookcount = 0;
 		for(int currentBook = 1; currentBook <= reader.lastBookNumber; currentBook++){
 			reader.readBook(currentBook);
-			bookcount++;
 		}
-		System.out.println(bookcount);
+		for(String outterKey : reader.frequencyMap.keySet()){
+			HashMap<String, Integer> currentMap = reader.frequencyMap.get(outterKey);
+			for(String innerKey : currentMap.keySet()){
+				System.out.println(outterKey + "\t" + innerKey + "\t" + currentMap.get(innerKey));
+			}
+		}
 	}
 }
