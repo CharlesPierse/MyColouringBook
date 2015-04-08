@@ -63,7 +63,6 @@ public class BuilderReader {
 		ignoredWords.add("such");
 		ignoredWords.add("were");
 		ignoredWords.add("all");
-		//ignoredWords.add("but");
 		ignoredWords.add("he");
 		ignoredWords.add("more");
 		ignoredWords.add("one");
@@ -90,7 +89,6 @@ public class BuilderReader {
 		ignoredWords.add("out");
 		ignoredWords.add("their");
 		ignoredWords.add("will");
-		//ignoredWords.add("and");
 		ignoredWords.add("corp");
 		ignoredWords.add("in");
 		ignoredWords.add("ms");
@@ -105,10 +103,8 @@ public class BuilderReader {
 		ignoredWords.add("they");
 		ignoredWords.add("would");
 		ignoredWords.add("as");
-		//ignoredWords.add("for");
 		ignoredWords.add("into");
 		ignoredWords.add("no");
-		//ignoredWords.add("so");
 		ignoredWords.add("this");
 		ignoredWords.add("up");
 		ignoredWords.add("at");
@@ -140,8 +136,7 @@ public class BuilderReader {
 		ignoredWords.add("No");
 		ignoredWords.add("Where");
 		ignoredWords.add("When");
-		//ignoredWords.add("But");
-		//ignoredWords.add("but");
+		
 
 	}
 
@@ -208,8 +203,11 @@ public class BuilderReader {
 	public static void main(String args[]){
 		BuilderReader reader = new BuilderReader();
 		reader.readBasicColours();
+		int bookcount = 0;
 		for(int currentBook = 1; currentBook <= reader.lastBookNumber; currentBook++){
 			reader.readBook(currentBook);
+			bookcount++;
 		}
+		System.out.println(bookcount);
 	}
 }

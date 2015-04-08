@@ -21,7 +21,7 @@ public class textImage {
         String text = st;
 
         Graphics2D g2d = img.createGraphics();
-        Font font = new Font("Arial", Font.PLAIN, 48);
+        Font font = new Font("Apple Chancery", Font.PLAIN, 48);
         g2d.setFont(font);
         FontMetrics fm = g2d.getFontMetrics();
         int width = fm.stringWidth(text);

@@ -19,7 +19,6 @@ public class image {
 	public image(String bookname, String author,String c, String colourname){
 		try {
 		    img = ImageIO.read(new File(st));
-		    //Takes Hash from colour
 		    String color = c.substring(1);
 			String red=color.substring(0, 2);
 			String green=color.substring(2, 4);
@@ -79,6 +78,6 @@ public class image {
 	}
 	
 	public static void main(String[] args){
-		image im = new image("The Adventures of Huckleberry Finn", "Mark Twain", "#95b87d", "BrowsdanShoe");
+		image im = new image("The godfather", "Mark Twain", "#95b87d", "BrowsdanShoe");
 	}
 }
