@@ -38,8 +38,7 @@ public class BookCoverRetrieve {
             String imageUrl = json.getJSONObject("responseData").getJSONArray("results").getJSONObject(0).getString("url");
 
             BufferedImage image = ImageIO.read(new URL(imageUrl));
-            //JOptionPane.showMessageDialog(null, "", "", JOptionPane.INFORMATION_MESSAGE, new ImageIcon(image));
-            //System.out.println(image.getType());
+            
             return image;
             
         } catch(Exception e){
