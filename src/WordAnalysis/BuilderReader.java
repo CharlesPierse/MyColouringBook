@@ -26,7 +26,18 @@ public class BuilderReader {
 		colours.add("white");
 		colours.add("navy");
 	}
-
+	
+	Set<String> joinerWords = new HashSet<String>();
+	{
+		joinerWords.add("for");
+		joinerWords.add("and");
+		joinerWords.add("nor");
+		joinerWords.add("but");
+		joinerWords.add("or");
+		joinerWords.add("yet");
+		joinerWords.add("so");
+	}
+	
 
 	Set<String> ignoredWords = new HashSet<String>();
 	{
@@ -52,7 +63,7 @@ public class BuilderReader {
 		ignoredWords.add("such");
 		ignoredWords.add("were");
 		ignoredWords.add("all");
-		ignoredWords.add("but");
+		//ignoredWords.add("but");
 		ignoredWords.add("he");
 		ignoredWords.add("more");
 		ignoredWords.add("one");
@@ -79,7 +90,7 @@ public class BuilderReader {
 		ignoredWords.add("out");
 		ignoredWords.add("their");
 		ignoredWords.add("will");
-		ignoredWords.add("and");
+		//ignoredWords.add("and");
 		ignoredWords.add("corp");
 		ignoredWords.add("in");
 		ignoredWords.add("ms");
@@ -94,10 +105,10 @@ public class BuilderReader {
 		ignoredWords.add("they");
 		ignoredWords.add("would");
 		ignoredWords.add("as");
-		ignoredWords.add("for");
+		//ignoredWords.add("for");
 		ignoredWords.add("into");
 		ignoredWords.add("no");
-		ignoredWords.add("so");
+		//ignoredWords.add("so");
 		ignoredWords.add("this");
 		ignoredWords.add("up");
 		ignoredWords.add("at");
@@ -129,8 +140,8 @@ public class BuilderReader {
 		ignoredWords.add("No");
 		ignoredWords.add("Where");
 		ignoredWords.add("When");
-		ignoredWords.add("But");
-		ignoredWords.add("but");
+		//ignoredWords.add("But");
+		//ignoredWords.add("but");
 
 	}
 
