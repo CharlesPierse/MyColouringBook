@@ -158,7 +158,7 @@ public class BuilderReader {
 						String[] splitLine = line.toLowerCase().split(" ");
 						for(String word : splitLine){
 							System.out.print(word + "\t");
-							word = word.replace(",", "");//should remove all shitespaces and punctuation.
+							word = word.replaceAll("[^a-zA-Z ]", "");//should remove all shitespaces and punctuation.
 							System.out.print(word + "\n");
 						}
 //						for(int i = 1; i < splitLine.length-1; i++){
