@@ -206,7 +206,7 @@ public class BasicBookReaderNeedsUpdating {
 				for (String curretnLine : book) {
 					if(allowRead){
 						if(curretnLine.contains("***END OF THE PROJECT GUTENBERG EBOOK")){
-							allowRead = false;
+							break;
 						}
 						else{
 							Tokenizer tokenizer = stf.tokenizer(curretnLine.toCharArray(),0,curretnLine.length());

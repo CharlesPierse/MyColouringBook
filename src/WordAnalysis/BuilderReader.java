@@ -248,7 +248,7 @@ public class BuilderReader {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-
+		vocab.remove("");
 	}
 
 	public void saveMap(){
