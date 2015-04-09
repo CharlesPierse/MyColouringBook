@@ -28,7 +28,8 @@ public class BuilderReader {
 		colours.add("navy");
 	}
 
-
+	
+	//read this from a file.
 	Set<String> ignoredWords = new HashSet<String>();
 	{
 		ignoredWords.add("a");
