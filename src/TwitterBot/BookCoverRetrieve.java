@@ -23,7 +23,7 @@ public class BookCoverRetrieve {
     	bookName = bookName.replaceAll(" ", "_").toLowerCase();
         try{
         	
-            URL url = new URL("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+bookName+"_book");
+            URL url = new URL("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+bookName+"_"+author);
             URLConnection connection = url.openConnection();
         	
 
@@ -35,10 +35,25 @@ public class BookCoverRetrieve {
             }
            
             JSONObject json = new JSONObject(builder.toString());
+            BufferedImage image = null;
+            boolean run = true;
+            for(int x = 0;x<50&&run;x++){
+                String imageUrl = json.getJSONObject("responseData").getJSONArray("results").getJSONObject(x).getString("url");
+                try {
+                	 image = ImageIO.read(new URL(imageUrl));
+				} catch (Exception e) {
+					System.out.println("Image retrieve failed "+(x+1)+" times.");
+				}
+                if(image!=null){
+                	if(image.getHeight()>300||image.getWidth()>400)
+                	run=false;
+                }
+            }
+            /*
             String imageUrl = json.getJSONObject("responseData").getJSONArray("results").getJSONObject(0).getString("url");
 
             BufferedImage image = ImageIO.read(new URL(imageUrl));
-            
+            */
             return image;
             
         } catch(Exception e){

@@ -78,6 +78,6 @@ public class image {
 	}
 	
 	public static void main(String[] args){
-		image im = new image("Ulysses", "Plato", "#95b87d", "Brown trout");
+		image im = new image("A Love Story", "A Bushman", "#95b87d", "Brown trout");
 	}
 }
