@@ -97,7 +97,7 @@ public class TermFrequencyInverseDocumentFrequency {
 		//			}
 		//		}
 		for(int currentBook = 1; currentBook <= tfIDF.lastBookNumber; currentBook++){
-			System.out.println(tfIDF.tfIdf("leopold", currentBook));
+			System.out.println(tfIDF.tfIdf("twit", currentBook));
 		}
 	}
 }

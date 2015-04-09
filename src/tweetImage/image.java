@@ -88,6 +88,7 @@ public class image {
 	}
 	
 	public static void main(String[] args){
-		image im = new image("The Merchant of venice", "ALOC", "#95b87d", "Brown trout", true);
+		
+		image im = new image("Ulysses", "ALOC", "#95b87d", "Brown trout", true);
 	}
 }
