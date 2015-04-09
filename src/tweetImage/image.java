@@ -1,5 +1,6 @@
 package tweetImage;
 
+import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -17,6 +18,10 @@ public class image {
 	private BookCoverRetrieve bcr = new BookCoverRetrieve();
 	
 	public image(String bookname, String author,String c, String colourname){
+		new image(bookname, author, c, colourname, false);
+	}
+	
+	public image(String bookname, String author,String c, String colourname, boolean tint){
 		try {
 		    img = ImageIO.read(new File(st));
 		    String color = c.substring(1);
@@ -44,17 +49,22 @@ public class image {
 		    	}
 		    }
 			BufferedImage cover = bcr.getBookImage(bookname, author);
-			cover = getScaledImage(cover, 378, 493);
-		    for(int x = 58;x<436;x++){
-		    	for(int y = 23;y<516;y++){
-		    		int col2 = cover.getRGB(x-58, y-23);
-		    		img.setRGB(x, y, col2);
-		    	}
-		    }
+			if(cover!=null){
+				if(tint)cover = new TintImage(cover, new Color(r,g,b)).getTint();
+				cover = getScaledImage(cover, 378, 493);
+				for(int x = 58;x<436;x++){
+					for(int y = 23;y<516;y++){
+						int col2 = cover.getRGB(x-58, y-23);
+						img.setRGB(x, y, col2);
+					}
+				}
 
 		    
 		    File f = new File("resources/tweetimages/tweetFile.png");
 		    ImageIO.write(img, "PNG", f);
+			}else{
+				System.out.println("No mage found");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,6 +88,6 @@ public class image {
 	}
 	
 	public static void main(String[] args){
-		image im = new image("Ulysses", "Plato", "#95b87d", "Brown trout");
+		image im = new image("The Merchant of venice", "ALOC", "#95b87d", "Brown trout", true);
 	}
 }

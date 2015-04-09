@@ -12,9 +12,14 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import twitter4j.JSONArray;
 import twitter4j.JSONObject;
 
 public class BookCoverRetrieve {
+	
+	public BufferedImage getBookImage(String bName){
+		return getBookImage(bName, "book_cover");
+	}
 	
 	public BufferedImage getBookImage(String bName, String Author_name) {
 		String bookName = bName;
@@ -23,7 +28,7 @@ public class BookCoverRetrieve {
     	bookName = bookName.replaceAll(" ", "_").toLowerCase();
         try{
         	
-            URL url = new URL("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+bookName+"_book");
+            URL url = new URL("https://ajax.googleapis.com/ajax/services/search/images?v=1.0&q="+bookName+"_"+author);
             URLConnection connection = url.openConnection();
         	
 
@@ -35,10 +40,32 @@ public class BookCoverRetrieve {
             }
            
             JSONObject json = new JSONObject(builder.toString());
+            BufferedImage image = null;
+            boolean run = true;
+                JSONArray resultsarray = json.getJSONObject("responseData").getJSONArray("results");
+                for(int x = 0;x<resultsarray.length()&&run;x++){
+                	String imageUrl = resultsarray.getJSONObject(x).getString("url");
+                try {
+                	 image = ImageIO.read(new URL(imageUrl));
+				} catch (Exception e) {
+            		System.out.println("Image retrieve failed "+(x)+" times.");
+					e.printStackTrace();
+				}
+                if(image!=null){
+                	if(image.getHeight()>250||image.getWidth()>250){
+                		run=false;
+                	}
+                	
+                }
+            }
+            /*
             String imageUrl = json.getJSONObject("responseData").getJSONArray("results").getJSONObject(0).getString("url");
 
             BufferedImage image = ImageIO.read(new URL(imageUrl));
-            
+            */
+            if(image==null){
+            	image = getBookImage(bName);
+            }
             return image;
             
         } catch(Exception e){
