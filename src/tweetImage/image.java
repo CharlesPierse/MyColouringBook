@@ -44,6 +44,7 @@ public class image {
 		    	}
 		    }
 			BufferedImage cover = bcr.getBookImage(bookname, author);
+			if(cover!=null){
 			cover = getScaledImage(cover, 378, 493);
 		    for(int x = 58;x<436;x++){
 		    	for(int y = 23;y<516;y++){
@@ -55,6 +56,9 @@ public class image {
 		    
 		    File f = new File("resources/tweetimages/tweetFile.png");
 		    ImageIO.write(img, "PNG", f);
+			}else{
+				System.out.println("No mage found");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -78,6 +82,6 @@ public class image {
 	}
 	
 	public static void main(String[] args){
-		image im = new image("A Love Story", "A Bushman", "#95b87d", "Brown trout");
+		image im = new image("Fifty Shades of Grey", "bfbc", "#95b87d", "Brown trout");
 	}
 }

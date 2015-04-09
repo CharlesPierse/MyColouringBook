@@ -12,9 +12,14 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import twitter4j.JSONArray;
 import twitter4j.JSONObject;
 
 public class BookCoverRetrieve {
+	
+	public BufferedImage getBookImage(String bName){
+		return getBookImage(bName, "book");
+	}
 	
 	public BufferedImage getBookImage(String bName, String Author_name) {
 		String bookName = bName;
@@ -37,16 +42,20 @@ public class BookCoverRetrieve {
             JSONObject json = new JSONObject(builder.toString());
             BufferedImage image = null;
             boolean run = true;
-            for(int x = 0;x<50&&run;x++){
-                String imageUrl = json.getJSONObject("responseData").getJSONArray("results").getJSONObject(x).getString("url");
+                JSONArray resultsarray = json.getJSONObject("responseData").getJSONArray("results");
+                for(int x = 0;x<resultsarray.length()&&run;x++){
+                	String imageUrl = resultsarray.getJSONObject(x).getString("url");
                 try {
                 	 image = ImageIO.read(new URL(imageUrl));
 				} catch (Exception e) {
-					System.out.println("Image retrieve failed "+(x+1)+" times.");
+            		System.out.println("Image retrieve failed "+(x)+" times.");
+					e.printStackTrace();
 				}
                 if(image!=null){
-                	if(image.getHeight()>300||image.getWidth()>400)
-                	run=false;
+                	if(image.getHeight()>250||image.getWidth()>250){
+                		run=false;
+                	}
+                	
                 }
             }
             /*
@@ -54,6 +63,9 @@ public class BookCoverRetrieve {
 
             BufferedImage image = ImageIO.read(new URL(imageUrl));
             */
+            if(image==null){
+            	image = getBookImage(bName);
+            }
             return image;
             
         } catch(Exception e){
