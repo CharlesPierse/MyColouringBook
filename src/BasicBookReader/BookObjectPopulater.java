@@ -30,7 +30,7 @@ public class BookObjectPopulater {
 						line = line.replaceAll("[a-zA-Z]", " ");
 						String[] splitLine = line.split(" ");
 						for(String word : splitLine){
-							
+
 						}
 					}
 				}
@@ -54,6 +54,8 @@ public class BookObjectPopulater {
 
 	public static void main(String args[]){
 		BookObjectPopulater populater = new BookObjectPopulater(); //lpt = ling pipe test
-		populater.readBook(1);
+		for(int i = 1; i <= 38; i++){
+			populater.readBook(i);
+		}
 	}
 }
