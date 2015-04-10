@@ -39,12 +39,13 @@ public class image {
 		    	}
 		    }
 		    textImage text = new textImage(colourname);
-		    BufferedImage txt = getScaledImage(text.getTextImage(), 250, text.getTextImage().getHeight());
+		    //BufferedImage txt = getScaledImage(text.getTextImage(), 250, text.getTextImage().getHeight());
+		    BufferedImage txt  = text.getTextImage();
 		    for(int x = 0; x<txt.getWidth();x++){
 		    	for(int y = 0;y<txt.getHeight();y++){
 		    		int col1 = txt.getRGB(x, y);
 		    		if(col1!=0){
-		    			img.setRGB(x+500,y+250,col1);
+		    			img.setRGB(x+500,y+25,col1);
 		    		}
 		    	}
 		    }
@@ -89,6 +90,6 @@ public class image {
 	
 	public static void main(String[] args){
 		
-		image im = new image("Ulysses", "ALOC", "#95b87d", "Brown trout", true);
+		image im = new image("Ulysses", "James Joyce", "#95b87d", "Brown trout", true);
 	}
 }
