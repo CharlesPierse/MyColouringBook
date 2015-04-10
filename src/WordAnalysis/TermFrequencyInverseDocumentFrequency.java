@@ -80,9 +80,15 @@ public class TermFrequencyInverseDocumentFrequency {
 	}
 
 	private double tfIdf(String term, int bookNumber){
-		double x = termFrequency(term, bookNumber);
-		double y = inverseDocumentFrequency(term);
-		return x*y;
+		double tf = termFrequency(term, bookNumber);
+		double idf = inverseDocumentFrequency(term);
+		double result = tf*idf;
+		if(Double.isNaN(result)){
+			return -1;
+		}
+		else{
+			return result;
+		}
 	}
 
 	public static void main(String args[]){
@@ -90,14 +96,8 @@ public class TermFrequencyInverseDocumentFrequency {
 		for(int currentBook = 1; currentBook <= tfIDF.lastBookNumber; currentBook++){
 			tfIDF.readBook(currentBook);
 		}
-		//		for(int bookNumber : tfIDF.bookCollectionMap.keySet()){
-		//			HashMap<String, Integer> map = tfIDF.bookCollectionMap.get(bookNumber);
-		//			for(String key : map.keySet()){
-		//				System.out.println(bookNumber + "\t" + key + "\t" + map.get(key));
-		//			}
-		//		}
 		for(int currentBook = 1; currentBook <= tfIDF.lastBookNumber; currentBook++){
-			System.out.println(tfIDF.tfIdf("twit", currentBook));
+			System.out.println(tfIDF.tfIdf("twitte", currentBook));
 		}
 	}
 }
