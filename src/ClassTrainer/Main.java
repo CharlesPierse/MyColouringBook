@@ -12,6 +12,7 @@ import cc.mallet.pipe.TokenSequence2FeatureSequence;
 import cc.mallet.pipe.iterator.CsvIterator;
 import cc.mallet.types.InstanceList;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -35,12 +36,12 @@ public class Main {
 
         //prepare training instances
         InstanceList trainingInstanceList = new InstanceList(pipe);
-        trainingInstanceList.addThruPipe(new CsvIterator(new FileReader("webkb-train-stemmed.txt"),
+        trainingInstanceList.addThruPipe(new CsvIterator(new FileReader( "resources"+File.separator+"webkb-train-stemmed.txt"),
                 "(.*)\t(.*)", 2, 1, -1));
 
         //prepare test instances
         InstanceList testingInstanceList = new InstanceList(pipe);
-        testingInstanceList.addThruPipe(new CsvIterator(new FileReader("webkb-test-stemmed.txt"),
+        testingInstanceList.addThruPipe(new CsvIterator(new FileReader( "resources"+File.separator+"webkb-test-stemmed.txt"),
                 "(.*)\t(.*)", 2, 1, -1));
 
         ClassifierTrainer trainer = new SVMClassifierTrainer(new LinearKernel());
