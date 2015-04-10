@@ -16,6 +16,8 @@ public class BookObjectPopulater {
 		FileInputStream fis;
 		BufferedReader br;
 		String line = "";
+		String title = "";
+		String author = "";
 		try{
 			fis = new FileInputStream(filePath + bookNumber + fileExtension);
 			br = new BufferedReader(new InputStreamReader(fis,"UTF-8"));
@@ -36,15 +38,22 @@ public class BookObjectPopulater {
 					if(line.contains("***")){
 						allowedRead = true;
 					}
+					else if(line.contains("Title:")){
+						title = line.substring(7, line.length());
+					}
+					else if(line.contains("Author:")){
+						author = line.substring(8, line.length());
+					}
 				}
 			}
 		} catch(Exception e){
 			e.printStackTrace();
 		}
+		System.out.println(title + " by " + author);
 	}
 
 	public static void main(String args[]){
 		BookObjectPopulater populater = new BookObjectPopulater(); //lpt = ling pipe test
-
+		populater.readBook(1);
 	}
 }
