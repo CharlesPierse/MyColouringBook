@@ -16,6 +16,7 @@ import java.util.Random;
 
 import twitter4j.ResponseList;
 import twitter4j.Status;
+import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -48,8 +49,10 @@ public class NamexTweet {
  String tweetK = randomKey;
  String tweetV = um.getMap().get(randomKey);
 
- 
- twitter.updateStatus("#colorBot , I think that " + tweetK + " would look like: " + tweetV );
+ StatusUpdate status = new StatusUpdate("Testing the image");
+ status.setMedia(new File("resources"+File.separator+"tweetimages"+File.separator+"tweetFile.png"));
+ twitter.updateStatus(status);
+ //twitter.updateStatus("#colorBot , I think that " + tweetK + " would look like: " + tweetV );
 
  
  System.out.println("\nMy Timeline:");
