@@ -41,13 +41,13 @@ public class NamexTweet {
   accessTokenSecret);
 
  twitter.setOAuthAccessToken(oathAccessToken);
- urlMapper um = new urlMapper();
- um.loadRMtweets();
- Random gen = new Random();
- Object[] keys = um.getMap().keySet().toArray();
- String randomKey = (String) keys[gen.nextInt(keys.length)];
- String tweetK = randomKey;
- String tweetV = um.getMap().get(randomKey);
+ //urlMapper um = new urlMapper();
+ //um.loadRMtweets();
+ //Random gen = new Random();
+ //Object[] keys = um.getMap().keySet().toArray();
+ //String randomKey = (String) keys[gen.nextInt(keys.length)];
+ //String tweetK = randomKey;
+ //String tweetV = um.getMap().get(randomKey);
 
  StatusUpdate status = new StatusUpdate("Testing the image");
  status.setMedia(new File("resources"+File.separator+"tweetimages"+File.separator+"tweetFile.png"));
@@ -74,7 +74,7 @@ public class NamexTweet {
 
     	FileInputStream in = null;
 		try {
-			in = new FileInputStream("Resource"+ File.separator + "Tokens.txt");
+			in = new FileInputStream("resources"+ File.separator + "tokens.txt");
 		} catch (FileNotFoundException e2) {
 			e2.printStackTrace();
 		}
@@ -106,7 +106,7 @@ public class NamexTweet {
     	
     	FileInputStream in = null;
 		try {
-			in = new FileInputStream("Resource"+ File.separator + "Tokens.txt");
+			in = new FileInputStream("resources"+ File.separator + "tokens.txt");
 		} catch (FileNotFoundException e2) {
 			e2.printStackTrace();
 		}
