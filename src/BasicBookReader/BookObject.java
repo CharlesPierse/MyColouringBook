@@ -3,12 +3,12 @@ package BasicBookReader;
 import java.util.HashMap;
 
 public class BookObject {
-	private HashMap<Integer, String[]> book; //Integer = page number, String[] = words
+	private HashMap<Integer, String> book; //Integer = page number, String[] = words
 	private String title;
 	private String author;
 	private int[] tweetedPages;
 	
-	public BookObject(HashMap<Integer, String[]> book, String title, String author, int[] tweetedPages) {
+	public BookObject(HashMap<Integer, String> book, String title, String author, int[] tweetedPages) {
 		this.book = book;
 		this.title = title;
 		this.author = author;
@@ -23,7 +23,7 @@ public class BookObject {
 		this.tweetedPages = tweetedPages;
 	}
 
-	public HashMap<Integer, String[]> getBook() {
+	public HashMap<Integer, String> getBook() {
 		return book;
 	}
 
