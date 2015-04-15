@@ -29,8 +29,8 @@ public class NamexTweet {
     private final static String CONSUMER_KEY_SECRET =
     		"gSG5gM5cOsbhiXryUyRKEtS3FAAR5CWLkXtQOZzXS6FyYGXZrh";
 
-    public void start() throws TwitterException, IOException {
-
+    public void start(String uname) throws TwitterException, IOException {
+    	String username = uname;
  Twitter twitter = new TwitterFactory().getInstance();
  twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_KEY_SECRET);
 
@@ -49,7 +49,7 @@ public class NamexTweet {
  //String tweetK = randomKey;
  //String tweetV = um.getMap().get(randomKey);
 
- StatusUpdate status = new StatusUpdate("@79teddyWolf , this looks like an interesting book right? You should read while you recover");
+ StatusUpdate status = new StatusUpdate("@"+username+" I hope you are enjoying it, it's a very colourful book indeed #snotgreenSea");
  status.setMedia(new File("resources"+File.separator+"tweetimages"+File.separator+"tweetFile.png"));
  twitter.updateStatus(status);
  //twitter.updateStatus("#colorBot , I think that " + tweetK + " would look like: " + tweetV );
@@ -135,8 +135,8 @@ public class NamexTweet {
  return  AccessToken;
     }
 
-    public static void main(String[] args) throws Exception {
- new NamexTweet().start();
-    }
+//    public static void main(String[] args) throws Exception {
+//    	new NamexTweet().start();
+//    }
 
 }
