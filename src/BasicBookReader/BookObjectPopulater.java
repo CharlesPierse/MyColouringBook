@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import tweetImage.image;
 
@@ -12,8 +14,11 @@ public class BookObjectPopulater {
 	private String filePath = "resources" + File.separator +"books" + File.separator + "Book_";
 	private String fileExtension = ".txt";
 	private int lastBookNumber = 38;
-	
+	private HashSet<BookObject> bookList = new HashSet<BookObject>();
+
 	private void readBook(int bookNumber){
+		BookObject bookObject;
+		HashMap<Integer, String> book = new HashMap<Integer, String>();
 		image testImage;
 		boolean allowedRead = false;
 		int currentCharCount = 0;
@@ -26,6 +31,7 @@ public class BookObjectPopulater {
 		String line = "";
 		String title = "";
 		String author = "";
+
 		try{
 			fis = new FileInputStream(filePath + bookNumber + fileExtension);
 			br = new BufferedReader(new InputStreamReader(fis,"UTF-8"));
@@ -45,17 +51,16 @@ public class BookObjectPopulater {
 							}
 							overflow = "";
 						}
-						
+
 						//if there is no overflow
-						if(currentCharCount + line.length() < pageCharLimit){
+						if(currentCharCount + line.length() <= pageCharLimit){
 							currentPage += (" " + line);
 							currentCharCount += line.length();
 						}
 						else{
 							currentPage += (" " + line.substring(0, pageCharLimit-currentCharCount));
-							System.out.println(currentPage + "\n\n");
+							book.put(currentPageNumber, currentPage);
 							overflow += (" " + line.substring(pageCharLimit-currentCharCount+1, line.length()));
-							testImage = new image(title, author, "#ffffff", currentPage, true, currentPageNumber);
 							currentPage = "";
 							currentCharCount = 0;
 							currentPageNumber++;
@@ -74,6 +79,8 @@ public class BookObjectPopulater {
 					}
 				}
 			}
+			bookObject = new BookObject(book, title, author, new int[0]);
+			bookList.add(bookObject);
 		} catch(Exception e){
 			e.printStackTrace();
 		}
@@ -81,6 +88,9 @@ public class BookObjectPopulater {
 
 	public static void main(String args[]){
 		BookObjectPopulater populater = new BookObjectPopulater(); //lpt = ling pipe test
-		populater.readBook(1);
+		for(int i = 1; i < populater.lastBookNumber; i++){
+			populater.readBook(1);
+		}
+		System.out.println(populater.bookList.size());
 	}
 }
