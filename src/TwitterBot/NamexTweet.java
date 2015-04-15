@@ -49,7 +49,7 @@ public class NamexTweet {
  //String tweetK = randomKey;
  //String tweetV = um.getMap().get(randomKey);
 
- StatusUpdate status = new StatusUpdate("Testing the image");
+ StatusUpdate status = new StatusUpdate("@79teddyWolf , this looks like an interesting book right? You should read while you recover");
  status.setMedia(new File("resources"+File.separator+"tweetimages"+File.separator+"tweetFile.png"));
  twitter.updateStatus(status);
  //twitter.updateStatus("#colorBot , I think that " + tweetK + " would look like: " + tweetV );

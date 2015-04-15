@@ -41,7 +41,7 @@ public class BookObjectPopulater {
 								currentCharCount +=  overflow.length();
 							}
 							else{
-								System.out.println("This should never happen. Basicly a line was read in that is over 4200 characters.....");
+								System.out.println("This should never happen. Basically a line was read in that is over 4200 characters.....");
 							}
 							overflow = "";
 						}
