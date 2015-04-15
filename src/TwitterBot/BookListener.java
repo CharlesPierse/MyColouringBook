@@ -1,6 +1,7 @@
 package TwitterBot;
 
 import java.io.File;
+import java.io.IOException;
 
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
@@ -18,6 +19,7 @@ import twitter4j.conf.ConfigurationBuilder;
 
 //important, close all instance of this after you are done with it as it causes login in errors if you run multiple instances.
 public class BookListener {
+	
 	 public static void main(String[] args) {
 	        ConfigurationBuilder cb = new ConfigurationBuilder();
 	        cb.setDebugEnabled(true);
@@ -57,24 +59,26 @@ public class BookListener {
 				@Override
 				public void onStatus(Status status) {
 					 User user = status.getUser();
-					 Twitter twitter = new TwitterFactory().getInstance();
-
 		                String username = status.getUser().getScreenName();
-		                System.out.println(username);
+		                System.out.println(username);		
+		          
 		                String profileLocation = user.getLocation();
 		                System.out.println(profileLocation);
 		                long tweetId = status.getId(); 
 		                System.out.println(tweetId);
 		                String content = status.getText();
 		                System.out.println(content +"\n");
-		                StatusUpdate st = new StatusUpdate("@"+username +" I hope you are enjoying it, it's a very colourful book indeed #snotgreenSea");
-		                st.setMedia(new File("resources"+File.separator+"tweetimages"+File.separator+"tweetFile.png"));
-		                try {
-							twitter.updateStatus(st);
-						} catch (TwitterException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+		                NamexTweet nt = new NamexTweet();
+		    	        try {
+		    				nt.start(username);
+		    			} catch (TwitterException e) {
+		    				// TODO Auto-generated catch block
+		    				e.printStackTrace();
+		    			} catch (IOException e) {
+		    				// TODO Auto-generated catch block
+		    				e.printStackTrace();
+		    			}
+		                
 					
 				}
 
@@ -87,13 +91,14 @@ public class BookListener {
 	        };
 	        
 	        FilterQuery fq = new FilterQuery();
+	      
 	        String bookname = "#Ulysses";
 	        String keywords[] = {bookname}; //other thigns can be added 
 
 	        fq.track(keywords);
 
 	        twitterStream.addListener(listener);
-	        twitterStream.filter(fq);  
+	        twitterStream.filter(fq);
 
 	 }
 }
