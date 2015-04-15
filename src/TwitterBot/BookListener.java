@@ -1,16 +1,22 @@
 package TwitterBot;
 
+import java.io.File;
+
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
+import twitter4j.StatusUpdate;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
-
+//important, close all instance of this after you are done with it as it causes login in errors if you run multiple instances.
 public class BookListener {
 	 public static void main(String[] args) {
 	        ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -51,7 +57,8 @@ public class BookListener {
 				@Override
 				public void onStatus(Status status) {
 					 User user = status.getUser();
-		                
+					 Twitter twitter = new TwitterFactory().getInstance();
+
 		                String username = status.getUser().getScreenName();
 		                System.out.println(username);
 		                String profileLocation = user.getLocation();
@@ -60,6 +67,14 @@ public class BookListener {
 		                System.out.println(tweetId);
 		                String content = status.getText();
 		                System.out.println(content +"\n");
+		                StatusUpdate st = new StatusUpdate("@"+username +" I hope you are enjoying it, it's a very colourful book indeed #snotgreenSea");
+		                st.setMedia(new File("resources"+File.separator+"tweetimages"+File.separator+"tweetFile.png"));
+		                try {
+							twitter.updateStatus(st);
+						} catch (TwitterException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					
 				}
 

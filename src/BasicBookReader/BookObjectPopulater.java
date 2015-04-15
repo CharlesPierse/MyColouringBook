@@ -16,7 +16,11 @@ public class BookObjectPopulater {
 	private int lastBookNumber = 38;
 	private HashSet<BookObject> bookList = new HashSet<BookObject>();
 
-	private void readBook(int bookNumber){
+	public HashSet<BookObject> getBookList() {
+		return bookList;
+	}
+
+	public void readBook(int bookNumber){
 		BookObject bookObject;
 		HashMap<Integer, String> book = new HashMap<Integer, String>();
 		image testImage;
@@ -42,12 +46,13 @@ public class BookObjectPopulater {
 					}
 					else{
 						if(overflow.equals("")){//This should only be entered after finishing a page and not all the words could be added.
-							if(currentCharCount + overflow.length() < pageCharLimit){
+							if(currentCharCount + overflow.length() <= pageCharLimit){
 								currentPage += (" " + overflow);
 								currentCharCount +=  overflow.length();
 							}
 							else{
-								System.out.println("This should never happen. Basically a line was read in that is over 4200 characters.....");
+								System.out.println("This should never happen. Basicly a line was read in that is over 4200 characters.....");
+								System.out.println(currentCharCount);
 							}
 							overflow = "";
 						}
