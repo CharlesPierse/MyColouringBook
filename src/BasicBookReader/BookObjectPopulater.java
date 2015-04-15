@@ -5,18 +5,22 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
+import tweetImage.image;
+
 public class BookObjectPopulater {
 
 	private String filePath = "resources" + File.separator +"books" + File.separator + "Book_";
 	private String fileExtension = ".txt";
 	private int lastBookNumber = 38;
-	private int pageWordLimit = 300;
-
+	
 	private void readBook(int bookNumber){
+		image testImage;
 		boolean allowedRead = false;
-		int currentWordCount = 0;
-		String currentLine = "";
-		String overflowWords = "";
+		int currentCharCount = 0;
+		int pageCharLimit = 2000;
+		int currentPageNumber = 0;
+		String currentPage = "";
+		String overflow = "";
 		FileInputStream fis;
 		BufferedReader br;
 		String line = "";
@@ -31,32 +35,31 @@ public class BookObjectPopulater {
 						break;
 					}
 					else{
-						if(overflowWords != ""){
-							String[] splitOverflow = overflowWords.split(" ");
-							for(int lineIndex = 0; lineIndex < splitOverflow.length; lineIndex++){
-								if(currentWordCount <= pageWordLimit){
-									currentLine += splitOverflow[lineIndex] + " ";
-									currentWordCount++;
-								}
-								else{
-									overflowWords += splitOverflow[lineIndex] + " ";
-								}
+						if(overflow.equals("")){//This should only be entered after finishing a page and not all the words could be added.
+							if(currentCharCount + overflow.length() < pageCharLimit){
+								currentPage += (" " + overflow);
+								currentCharCount +=  overflow.length();
 							}
+							else{
+								System.out.println("This should never happen. Basicly a line was read in that is over 4200 characters.....");
+							}
+							overflow = "";
+						}
+						
+						//if there is no overflow
+						if(currentCharCount + line.length() < pageCharLimit){
+							currentPage += (" " + line);
+							currentCharCount += line.length();
 						}
 						else{
-							String[] splitLine = line.split(" ");
-							for(int lineIndex = 0; lineIndex < splitLine.length; lineIndex++){
-								if(currentWordCount <= pageWordLimit){
-									currentLine += splitLine[lineIndex] + " ";
-									currentWordCount++;
-								}
-								else{
-									overflowWords += splitLine[lineIndex] + " ";
-								}
-							}
+							currentPage += (" " + line.substring(0, pageCharLimit-currentCharCount));
+							System.out.println(currentPage + "\n\n");
+							overflow += (" " + line.substring(pageCharLimit-currentCharCount+1, line.length()));
+							testImage = new image(title, author, "#ffffff", currentPage, true, currentPageNumber);
+							currentPage = "";
+							currentCharCount = 0;
+							currentPageNumber++;
 						}
-						System.out.println(currentLine);
-						currentLine = "";
 					}
 				}
 				else{
@@ -74,13 +77,10 @@ public class BookObjectPopulater {
 		} catch(Exception e){
 			e.printStackTrace();
 		}
-		System.out.println(title + " by " + author);
 	}
 
 	public static void main(String args[]){
 		BookObjectPopulater populater = new BookObjectPopulater(); //lpt = ling pipe test
-		//for(int i = 1; i <= 38; i++){
 		populater.readBook(1);
-		//}
 	}
 }
