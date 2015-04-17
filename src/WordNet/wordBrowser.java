@@ -89,7 +89,6 @@ public StringBuffer wordnet_hypernymTreeRecursive(String word, String pos) {
             if (f != null) {
                 for (int i = 1; i <= f.getSenseCount(); i++) {
                     sb.append(wordnet_hypernymTreeRecursive(new PointerTargetNode(f.getSense(i)), new StringBuffer()));
-                    System.out.println(sb);
                     Word[] words = f.getSense(i).getWords();
                     StringBuffer sbtemp = new StringBuffer();
                     for (int j = 0; j < words.length; j++) {
@@ -107,7 +106,9 @@ public StringBuffer wordnet_hypernymTreeRecursive(String word, String pos) {
     public StringBuffer wordnet_hypernymTreeRecursive(PointerTargetNode n, StringBuffer sb) {
         try {
         	PointerUtils po=PointerUtils.getInstance();
-        	
+        			System.out.println("syn::"+n.getSynset());
+            	
+            
         	
             PointerTargetNodeList directHypernyms = po.getDirectHypernyms(n.getSynset());
             if(n==null||n.getSynset()==null || po == null || directHypernyms == null){
