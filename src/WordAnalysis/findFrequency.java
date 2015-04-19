@@ -32,6 +32,6 @@ public class findFrequency {
 //		}
 		wordBrowser wb = new wordBrowser();
 		wb.initialise("resources"+File.separator+"WordNet"+File.separator+"file_properties.xml");
-		wb.getCategory("horse", "n");
+		//wb.("horse", "n");
 	}
 }

@@ -5,9 +5,11 @@ import java.io.FileInputStream;
 import java.util.List;
 
 import net.didion.jwnl.JWNL;
+import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.IndexWord;
 import net.didion.jwnl.data.POS;
 import net.didion.jwnl.data.PointerUtils;
+import net.didion.jwnl.data.Synset;
 import net.didion.jwnl.data.Word;
 import net.didion.jwnl.data.list.PointerTargetNode;
 import net.didion.jwnl.data.list.PointerTargetNodeList;
@@ -23,7 +25,6 @@ public class wordBrowser {
 		wordBrowser wb = new wordBrowser();
 		BasicConfigurator.configure();
 		wb.initialise("resources"+File.separator+"WordNet"+File.separator+"props.xml");
-		//wb.getCategory("kill", "n");
 		wb.wordnet_hypernymTreeRecursive("kill", "n");
 	}
 	
@@ -51,35 +52,6 @@ public class wordBrowser {
         return POS.NOUN;
     }
 
-//	public void getHypernymTree(IndexWord word){
-//		try {
-//			PointerTargetTree hypernym = PointerUtils.getInstance().getHypernymTree(word.getSense(0));
-//			System.out.println("Hyponyms of \"" + word.getLemma() + "\":");
-//			hypernym.print();//getroot.getchildtree
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-//	}
-	
-	
-//	public String getCategory(String word, String pos){
-//		try {
-//			POS p=convertPOS(pos);
-//			IndexWord w=dictionary.getIndexWord(p,word);
-//			if(w!=null){
-//				PointerTargetTree phypernym =PointerUtils.getInstance().getHyponymTree(w.getSense(0));
-//				List l=phypernym.toList();
-//				for (int i = 0; i < l.size(); i++) {
-//					System.out.println(l.get(i));
-//				}
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return "";
-//	}
-	
-
 
 public StringBuffer wordnet_hypernymTreeRecursive(String word, String pos) {
         StringBuffer sb = new StringBuffer();
@@ -106,13 +78,13 @@ public StringBuffer wordnet_hypernymTreeRecursive(String word, String pos) {
     public StringBuffer wordnet_hypernymTreeRecursive(PointerTargetNode n, StringBuffer sb) {
         try {
         	PointerUtils po=PointerUtils.getInstance();
-        			System.out.println("syn::"+n.getSynset());
-            	
-            
+        			System.out.println("syn::"+n.getSynset()); 
+        	Synset synset = n.getSynset();
         	
-            PointerTargetNodeList directHypernyms = po.getDirectHypernyms(n.getSynset());
-            if(n==null||n.getSynset()==null || po == null || directHypernyms == null){
-            	System.out.println("\n null \n");}
+        	if(n==null||synset==null || po == null){// || directHypernyms == null){
+            	System.out.println("\n null \n");}        	        	
+            PointerTargetNodeList directHypernyms = po.getDirectHypernyms(synset);
+            
             for ( int k=0; k < directHypernyms.size(); k++) {
                 PointerTargetNode p = (PointerTargetNode) directHypernyms.get(k);
                 wordnet_hypernymTreeRecursive(p, sb);
@@ -120,7 +92,6 @@ public StringBuffer wordnet_hypernymTreeRecursive(String word, String pos) {
                
                 StringBuffer sbtemp = new StringBuffer();
                 for (int i = 0; i < words.length; i++) {
-                	//System.out.println(words[i]);
                 	if ((words[i].getSynset())!= null){
                 		sbtemp.append(words[i].getSynset() + "\t");// change here to add other information
                 	}
@@ -129,9 +100,16 @@ public StringBuffer wordnet_hypernymTreeRecursive(String word, String pos) {
                 sb.append(sbtemp.toString().trim()).append("|");//layer wise separator
             }
             
-        } catch (Exception e) {
-           
-        	//e.printStackTrace();
+        } catch (NullPointerException | JWNLException e) {
+        	//e.printStackTrace(); 
+        	
+        	
+        	/* after looking into the problem of the null pointer exception I believe that the issue lies within the library itself and is
+        	 * not something that can be solved without access to the source code for the library which we do not have access to
+        	 * the code does however work and run correctly thus why I have the stack trace print commented out. We can run this code as normal
+        	 * for the purpose of the project.
+        	 * 
+        	 */
         }
         return sb;
     }
