@@ -1,17 +1,20 @@
 package TwitterBot;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
-import twitter4j.StatusUpdate;
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
@@ -19,6 +22,44 @@ import twitter4j.conf.ConfigurationBuilder;
 
 //important, close all instance of this after you are done with it as it causes login in errors if you run multiple instances.
 public class BookListener {
+	String[] Author ;
+	String[] BookName ;
+	String[] Bookvalues;
+	
+	public BookListener(){
+		loadAuthorBookList("NamesAuthors.txt");
+	}
+	
+	
+	public void loadAuthorBookList(String filepath){
+		FileInputStream in = null;
+		try {
+			in = new FileInputStream("Resource"+ File.separator + filepath);
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		}
+		BufferedReader br = null;
+		try {
+			br = new BufferedReader(new InputStreamReader(in,"UTF-8"));
+		} catch (UnsupportedEncodingException e1) {
+			e1.printStackTrace();
+		}
+		
+		String line = null;
+		try {
+			while((line = br.readLine()) != null)
+			{
+				int i = 0,j =0;
+				Bookvalues = line.split("\\t");
+				BookName[i] = Bookvalues[0];
+				Author[j] = Bookvalues[1];
+				i++;
+				j++;
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+	}
 	
 	 public static void main(String[] args) {
 	        ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -27,7 +68,6 @@ public class BookListener {
 	        cb.setOAuthConsumerSecret("gSG5gM5cOsbhiXryUyRKEtS3FAAR5CWLkXtQOZzXS6FyYGXZrh");
 	        cb.setOAuthAccessToken("3003436679-6idXjsJs74dxLyY4MRP7UCKdMXZgU47LVFWtIJJ");
 	        cb.setOAuthAccessTokenSecret("kxmKTCtnb9phscEsP7NyGsmMde2Z6wgMDGHMolmmqvsus");
-
 
 	        TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
 	        StatusListener listener = new StatusListener() {
@@ -92,8 +132,8 @@ public class BookListener {
 	        
 	        FilterQuery fq = new FilterQuery();
 	      
-	        String bookname = "#Ulysses";
-	        String keywords[] = {bookname}; //other thigns can be added 
+	        String bookinfo[][] = new Array[BookName][2];   //needs to be finished later, not populating correclty yet
+	        String keywords[] = {bookinfo}; //other things can be added 
 
 	        fq.track(keywords);
 

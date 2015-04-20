@@ -102,7 +102,7 @@ public StringBuffer wordnet_hypernymTreeRecursive(String word, String pos) {
             
         } catch (NullPointerException | JWNLException e) {
         	//e.printStackTrace(); 
-        	
+  
         	
         	/* after looking into the problem of the null pointer exception I believe that the issue lies within the library itself and is
         	 * not something that can be solved without access to the source code for the library which we do not have access to

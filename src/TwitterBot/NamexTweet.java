@@ -34,20 +34,13 @@ public class NamexTweet {
  Twitter twitter = new TwitterFactory().getInstance();
  twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_KEY_SECRET);
 
- // here's the difference
  String accessToken = getSavedAccessToken();
  String accessTokenSecret = getSavedAccessTokenSecret();
  AccessToken oathAccessToken = new AccessToken(accessToken,
   accessTokenSecret);
 
  twitter.setOAuthAccessToken(oathAccessToken);
- //urlMapper um = new urlMapper();
- //um.loadRMtweets();
- //Random gen = new Random();
- //Object[] keys = um.getMap().keySet().toArray();
- //String randomKey = (String) keys[gen.nextInt(keys.length)];
- //String tweetK = randomKey;
- //String tweetV = um.getMap().get(randomKey);
+
 
  StatusUpdate status = new StatusUpdate("@"+username+" I hope you are enjoying it, it's a very colourful book indeed #snotgreenSea");
  status.setMedia(new File("resources"+File.separator+"tweetimages"+File.separator+"tweetFile.png"));

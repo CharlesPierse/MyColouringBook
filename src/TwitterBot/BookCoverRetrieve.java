@@ -23,7 +23,7 @@ public class BookCoverRetrieve {
 	
 	public BufferedImage getBookImage(String bName, String Author_name) {
 		String bookName = bName;
-    	String author = Author_name ; //I will implement this so that it intially tries with authors name included and if that fails without
+    	String author = Author_name ; 
     	author = author.replaceAll(" ", "_").toLowerCase();
     	bookName = bookName.replaceAll(" ", "_").toLowerCase();
         try{
@@ -58,11 +58,7 @@ public class BookCoverRetrieve {
                 	
                 }
             }
-            /*
-            String imageUrl = json.getJSONObject("responseData").getJSONArray("results").getJSONObject(0).getString("url");
-
-            BufferedImage image = ImageIO.read(new URL(imageUrl));
-            */
+           
             if(image==null){
             	image = getBookImage(bName);
             }
