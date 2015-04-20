@@ -1,6 +1,5 @@
 package TwitterBot;
 
-import java.awt.print.Book;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,16 +9,13 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.stream.Stream;
 
-import cc.mallet.util.ArrayUtils;
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
-import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
@@ -132,12 +128,12 @@ public class BookListener {
 					if(!status.isRetweet()){
 						int hashhit = 0;
 						User user = status.getUser();
-						String tweet = status.getText();
+						String tweet = status.getText().toLowerCase();
 						String hash = "";
 						boolean found = false;
 						String[] title = book.getBookName();
 						for(int x = 0; x<title.length&&!found; x++){
-							if(tweet.contains(title[x])||tweet.contains(title[x].toLowerCase())){
+							if(tweet.contains(title[x].toLowerCase())){
 								hash = title[x];
 								found = true;
 								hashhit = 2;
@@ -146,7 +142,7 @@ public class BookListener {
 						if(!found) {
 							String[] auth = book.getAuthor();
 							for(int x = 0; x<auth.length&&!found; x++){
-								if(tweet.contains(auth[x])||tweet.contains(auth[x].toLowerCase())){
+								if(tweet.contains(auth[x].toLowerCase())){
 									hash = auth[x];
 									found = true;
 									hashhit = 1;
