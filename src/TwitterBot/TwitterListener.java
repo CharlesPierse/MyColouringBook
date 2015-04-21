@@ -133,4 +133,8 @@ public class TwitterListener {
         twitterStream.filter(fq);
 
 	}
+	
+	public static void main(String[] args){
+		TwitterListener tl = new TwitterListener();
+	}
 }
