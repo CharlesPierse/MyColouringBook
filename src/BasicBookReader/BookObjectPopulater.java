@@ -20,8 +20,14 @@ public class BookObjectPopulater {
 	public HashSet<BookObject> getBookList() {
 		return bookList;
 	}
-
-	public void readBook(int bookNumber){
+	
+	public void populateBookPopulate(){
+		for(int i = 1; i <= lastBookNumber; i++){
+			readBook(i);
+		}
+	}
+	
+	private void readBook(int bookNumber){
 		BookObject bookObject;
 		HashMap<Integer, String> book = new HashMap<Integer, String>();
 		image testImage;

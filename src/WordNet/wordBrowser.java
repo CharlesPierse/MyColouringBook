@@ -25,40 +25,6 @@ import ClassTrainer.TrainerBuilder;
 public class wordBrowser {
 	Dictionary dictionary ;
 	
-	public static void main(String[] args) {
-		wordBrowser wb = new wordBrowser();
-		BasicConfigurator.configure();
-		wb.initialise("resources"+File.separator+"WordNet"+File.separator+"props.xml");
-		TrainerBuilder tb = new TrainerBuilder();
-		BookObjectPopulater populater = new BookObjectPopulater();
-		for(int i = 1; i <= populater.lastBookNumber; i++){
-			populater.readBook(i);
-		}
-		HashSet<BookObject> bookList = populater.getBookList();
-		for(BookObject book : bookList){
-			HashMap<Integer, String> pages = book.getBook();
-			for(int i = 1; i <= 11; i++){
-				
-			}
-		}
-//		for (int i = 1; i <= 1; i++){
-//			tb.bookread(i);
-//			ArrayList<String> wordList = tb.bookread(i);
-//			
-//			for(String word: wordList){
-//				
-//				if(wb.wordnet_hypernymTreeRecursive(word, "VB")==null ||wb.wordnet_hypernymTreeRecursive(word, "NN")== null){
-//					//wordList.remove(word);
-//				}
-//				else{
-//					
-//					System.out.println("Word is:"+word + ("\t") + wb.wordnet_hypernymTreeRecursive(word, "NN"));
-//				}
-//			}
-//
-//		}
-	}
-	
 	private void writeFile(){
 		PrintWriter writer;
 		try{ 
