@@ -61,11 +61,11 @@ public class ColourABook {
 	}
 
 	public static void main(String args[]){
-		ColourABook bookColourer = new ColourABook();
-		BasicBookReaderNeedsUpdating basicBookReader = new BasicBookReaderNeedsUpdating();
-		basicBookReader.readBook();
-		bookColourer.fillMap();
-		bookColourer.bookMap = basicBookReader.getWordMap();
-		System.out.println("The result is: " + bookColourer.colourBook());
+//		ColourABook bookColourer = new ColourABook();
+//		BasicBookReaderNeedsUpdating basicBookReader = new BasicBookReaderNeedsUpdating();
+//		basicBookReader.readBook();
+//		bookColourer.fillMap();
+//		bookColourer.bookMap = basicBookReader.getWordMap();
+//		System.out.println("The result is: " + bookColourer.colourBook());
 	}
 }

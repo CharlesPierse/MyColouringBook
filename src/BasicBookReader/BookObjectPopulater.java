@@ -46,7 +46,7 @@ public class BookObjectPopulater {
 		try{
 			fis = new FileInputStream(filePath + bookNumber + fileExtension);
 			br = new BufferedReader(new InputStreamReader(fis,"UTF-8"));
-			while((line=br.readLine())!=null){
+			while((line=br.readLine().toLowerCase())!=null){
 				if(allowedRead){
 					if(line.contains("***")){
 						break;

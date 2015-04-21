@@ -31,7 +31,10 @@ public class main {
 			for(int key : pages.keySet()){
 				String[] splitCurrentPage = pages.get(key).replaceAll("\\p{P}", "").split(" "); //remove the punctuation from page and then splits it at whitespacs.
 				for(String word : splitCurrentPage){
-					System.out.println(word + "\t" + termFrequency.tfIdf(word, splitCurrentPage, pages));
+					double value = termFrequency.tfIdf(word, splitCurrentPage, pages);
+					if(value > 0 && value < 100){
+						System.out.println(word + "\t" + value);
+					}
 				}
 			}
 		}
