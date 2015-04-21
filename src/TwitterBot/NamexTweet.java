@@ -1,8 +1,5 @@
 package TwitterBot;
-//Charles Pierse
-//11510667
-//This code template was taken from the javacodeforgeeks website that was referenced and linked to us in class
-// I enetered in my own consumer keys and tokens
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,45 +23,31 @@ import twitter4j.auth.AccessToken;
 public class NamexTweet {
  
     private final static String CONSUMER_KEY = "HC3PNXzjbLWtbdqPl0DpHwaDV";
-    private final static String CONSUMER_KEY_SECRET =
-    		"gSG5gM5cOsbhiXryUyRKEtS3FAAR5CWLkXtQOZzXS6FyYGXZrh";
+    private final static String CONSUMER_KEY_SECRET = "gSG5gM5cOsbhiXryUyRKEtS3FAAR5CWLkXtQOZzXS6FyYGXZrh";
 
-    public void start(String uname) throws TwitterException, IOException {
+    public void start(String uname, int hit) throws TwitterException, IOException {
     	String username = uname;
- Twitter twitter = new TwitterFactory().getInstance();
- twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_KEY_SECRET);
+    	Twitter twitter = new TwitterFactory().getInstance();
+    	twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_KEY_SECRET);
 
- String accessToken = getSavedAccessToken();
- String accessTokenSecret = getSavedAccessTokenSecret();
- AccessToken oathAccessToken = new AccessToken(accessToken,
-  accessTokenSecret);
+    	String accessToken = getSavedAccessToken();
+    	String accessTokenSecret = getSavedAccessTokenSecret();
+    	AccessToken oathAccessToken = new AccessToken(accessToken,accessTokenSecret);
 
- twitter.setOAuthAccessToken(oathAccessToken);
+    	twitter.setOAuthAccessToken(oathAccessToken);
 
 
- StatusUpdate status = new StatusUpdate("@"+username+" I hope you are enjoying it, it's a very colourful book indeed #snotgreenSea");
- status.setMedia(new File("resources"+File.separator+"tweetimages"+File.separator+"tweetFile.png"));
- twitter.updateStatus(status);
- //twitter.updateStatus("#colorBot , I think that " + tweetK + " would look like: " + tweetV );
-
- 
- System.out.println("\nMy Timeline:");
- 
- ResponseList<Status> list = twitter.getHomeTimeline();
- for (Status each : list) {
-
-     System.out.println("Sent by: @" + each.getUser().getScreenName()
-      + " - " + each.getUser().getName() + "\n" + each.getText()
-      + "\n");
- }
- 
-
+    	StatusUpdate status = new StatusUpdate("@"+username+" I hope you are enjoying it, it's a very colourful book indeed #snotgreenSea");
+    	status.setMedia(new File("resources"+File.separator+"tweetimages"+File.separator+"tweetFile.png"));
+    	if(hit==1){
+    		System.out.println("-----Author-----");
+    	}else if(hit==2){
+    		System.out.println("-----Title-----");
+    	}
+    	//twitter.updateStatus(status);
     }
 
     private String getSavedAccessTokenSecret() throws IOException {
-    	
-  
-
     	FileInputStream in = null;
 		try {
 			in = new FileInputStream("resources"+ File.separator + "tokens.txt");
@@ -92,7 +75,7 @@ public class NamexTweet {
     	secretToken = tokenValues[0];
     	br.close();
     	
- return secretToken;
+    	return secretToken;
     }
 
     private String getSavedAccessToken() throws IOException {
@@ -125,11 +108,8 @@ public class NamexTweet {
     	AccessToken = tokenValues[1];
     	br.close();
     	
- return  AccessToken;
+    	return  AccessToken;
     }
 
-//    public static void main(String[] args) throws Exception {
-//    	new NamexTweet().start();
-//    }
 
 }
