@@ -33,7 +33,7 @@ public class BookObjectPopulater {
 		image testImage;
 		boolean allowedRead = false;
 		int currentCharCount = 0;
-		int pageCharLimit = 2000;
+		int pageCharLimit = 500;
 		int currentPageNumber = 0;
 		String currentPage = "";
 		String overflow = "";
