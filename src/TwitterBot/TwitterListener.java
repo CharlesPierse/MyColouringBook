@@ -16,8 +16,9 @@ import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterListener {
+	private BookListenerSetup book = new BookListenerSetup();
+	
 	public TwitterListener(){
-	 	BookListenerSetup book = new BookListenerSetup();
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true);
         cb.setOAuthConsumerKey("HC3PNXzjbLWtbdqPl0DpHwaDV");
