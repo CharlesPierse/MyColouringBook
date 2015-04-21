@@ -14,7 +14,7 @@ public class BookObjectPopulater {
 
 	private String filePath = "resources" + File.separator +"books" + File.separator + "Book_";
 	private String fileExtension = ".txt";
-	private int lastBookNumber = 38;
+	public int lastBookNumber = 38; //needed public
 	private HashSet<BookObject> bookList = new HashSet<BookObject>();
 
 	public HashSet<BookObject> getBookList() {

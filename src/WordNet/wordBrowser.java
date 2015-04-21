@@ -2,21 +2,25 @@ package WordNet;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.util.List;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import net.didion.jwnl.JWNL;
-import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.IndexWord;
 import net.didion.jwnl.data.POS;
 import net.didion.jwnl.data.PointerUtils;
-import net.didion.jwnl.data.Synset;
 import net.didion.jwnl.data.Word;
 import net.didion.jwnl.data.list.PointerTargetNode;
 import net.didion.jwnl.data.list.PointerTargetNodeList;
-import net.didion.jwnl.data.list.PointerTargetTree;
 import net.didion.jwnl.dictionary.Dictionary;
 
 import org.apache.log4j.BasicConfigurator;
+
+import BasicBookReader.BookObject;
+import BasicBookReader.BookObjectPopulater;
+import ClassTrainer.TrainerBuilder;
 
 public class wordBrowser {
 	Dictionary dictionary ;
@@ -25,13 +29,51 @@ public class wordBrowser {
 		wordBrowser wb = new wordBrowser();
 		BasicConfigurator.configure();
 		wb.initialise("resources"+File.separator+"WordNet"+File.separator+"props.xml");
-		wb.wordnet_hypernymTreeRecursive("kill", "n");
+		TrainerBuilder tb = new TrainerBuilder();
+		BookObjectPopulater populater = new BookObjectPopulater();
+		for(int i = 1; i <= populater.lastBookNumber; i++){
+			populater.readBook(i);
+		}
+		HashSet<BookObject> bookList = populater.getBookList();
+		for(BookObject book : bookList){
+			HashMap<Integer, String> pages = book.getBook();
+			for(int i = 1; i <= 11; i++){
+				
+			}
+		}
+//		for (int i = 1; i <= 1; i++){
+//			tb.bookread(i);
+//			ArrayList<String> wordList = tb.bookread(i);
+//			
+//			for(String word: wordList){
+//				
+//				if(wb.wordnet_hypernymTreeRecursive(word, "VB")==null ||wb.wordnet_hypernymTreeRecursive(word, "NN")== null){
+//					//wordList.remove(word);
+//				}
+//				else{
+//					
+//					System.out.println("Word is:"+word + ("\t") + wb.wordnet_hypernymTreeRecursive(word, "NN"));
+//				}
+//			}
+//
+//		}
+	}
+	
+	private void writeFile(){
+		PrintWriter writer;
+		try{ 
+			writer = new PrintWriter("resources" + File.separator + "trainFile.txt");
+			//writer.println();
+			//Need to know data type of class-features to print
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void initialise(String filePath){
 		try {
 			JWNL.initialize(new FileInputStream(filePath));
-			dictionary = Dictionary.getInstance();
+			 dictionary = Dictionary.getInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,18 +95,19 @@ public class wordBrowser {
     }
 
 
-public StringBuffer wordnet_hypernymTreeRecursive(String word, String pos) {
-        StringBuffer sb = new StringBuffer();
+	public StringBuffer wordnet_hypernymTreeRecursive(String word, String pos) {
+        StringBuffer sb = null;
         try {
             POS p = this.convertPOS(pos);
             IndexWord f = dictionary.getIndexWord(p, word);
             if (f != null) {
+            	sb = new StringBuffer();
                 for (int i = 1; i <= f.getSenseCount(); i++) {
                     sb.append(wordnet_hypernymTreeRecursive(new PointerTargetNode(f.getSense(i)), new StringBuffer()));
                     Word[] words = f.getSense(i).getWords();
                     StringBuffer sbtemp = new StringBuffer();
                     for (int j = 0; j < words.length; j++) {
-                        sbtemp.append(words[j].getLemma() + "\t");// change here to add other information
+                        sbtemp.append(words[j].getLemma() + "\t");
                     }
                     sb.append(sbtemp.toString().trim()).append("\n");
                 }
@@ -75,43 +118,22 @@ public StringBuffer wordnet_hypernymTreeRecursive(String word, String pos) {
         return sb;
     }
 
-    public StringBuffer wordnet_hypernymTreeRecursive(PointerTargetNode n, StringBuffer sb) {
-        try {
-        	PointerUtils po=PointerUtils.getInstance();
-        			System.out.println("syn::"+n.getSynset()); 
-        	Synset synset = n.getSynset();
-        	
-        	if(n==null||synset==null || po == null){// || directHypernyms == null){
-            	System.out.println("\n null \n");}        	        	
-            PointerTargetNodeList directHypernyms = po.getDirectHypernyms(synset);
-            
-            for ( int k=0; k < directHypernyms.size(); k++) {
-                PointerTargetNode p = (PointerTargetNode) directHypernyms.get(k);
-                wordnet_hypernymTreeRecursive(p, sb);
-                Word[] words = p.getSynset().getWords();
-               
-                StringBuffer sbtemp = new StringBuffer();
-                for (int i = 0; i < words.length; i++) {
-                	if ((words[i].getSynset())!= null){
-                		sbtemp.append(words[i].getSynset() + "\t");// change here to add other information
-                	}
-                	
-                }
-                sb.append(sbtemp.toString().trim()).append("|");//layer wise separator
+public StringBuffer wordnet_hypernymTreeRecursive(PointerTargetNode n, StringBuffer sb) {
+    try {
+        PointerTargetNodeList directHypernyms = PointerUtils.getInstance().getDirectHypernyms(n.getSynset());
+        for (int k = 0; k < directHypernyms.size(); k++) {
+            PointerTargetNode p = (PointerTargetNode) directHypernyms.get(k);
+            wordnet_hypernymTreeRecursive(p, sb);
+            Word[] words = p.getSynset().getWords();
+            StringBuffer sbtemp = new StringBuffer();
+            for (int i = 0; i < words.length; i++) {
+                sbtemp.append(words[i].getLemma() + "\t");
             }
-            
-        } catch (NullPointerException | JWNLException e) {
-        	//e.printStackTrace(); 
-  
-        	
-        	/* after looking into the problem of the null pointer exception I believe that the issue lies within the library itself and is
-        	 * not something that can be solved without access to the source code for the library which we do not have access to
-        	 * the code does however work and run correctly thus why I have the stack trace print commented out. We can run this code as normal
-        	 * for the purpose of the project.
-        	 * 
-        	 */
+            sb.append(sbtemp.toString().trim()).append("|");
         }
-        return sb;
+    } catch (Exception e) {
+       // e.printStackTrace();
     }
-
+    return sb;
+}
 }
