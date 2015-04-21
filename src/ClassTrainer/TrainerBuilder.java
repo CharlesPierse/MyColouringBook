@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import TwitterBot.BookListener;
 
 public class TrainerBuilder {
 	
