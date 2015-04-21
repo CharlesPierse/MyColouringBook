@@ -125,12 +125,26 @@ public class TwitterListener {
         };
         
         FilterQuery fq = new FilterQuery();
-      
-        String keywords[] = Stream.concat(Arrays.stream(book.getAuthor()), Arrays.stream(book.getBookName())).toArray(String[]::new);
+        
+        String[] author = book.getAuthor();
+        String[] title = book.getBookName();
+        int keywordlen = author.length + title.length;
+        String keywords[] = new String[keywordlen];
+        for(int x = 0; x<author.length; x++){
+        	keywords[x] = author[x];
+        }
+        for(int x = 0; x<title.length; x++){
+        	keywords[x+author.length] = title[x];
+        }
         fq.track(keywords);
-
+        
+        
         twitterStream.addListener(listener);
         twitterStream.filter(fq);
 
+	}
+	
+	public static void main(String[] args){
+		TwitterListener tl = new TwitterListener();
 	}
 }
