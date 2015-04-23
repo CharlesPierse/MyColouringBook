@@ -18,7 +18,7 @@ Wuthering Heights	Emily Bronte
 The Divine Comedy, Complete	Dante Alighieri
 Ulysses	James Joyce
 Frankenstein	Mary Shelley
-The Adventures of Tom Sawyer, Mark Twain
+The Adventures of Tom Sawyer	Mark Twain
 Peter Pan	James M. Barrie
 Alice's Adventures in Wonderland	Lewis Carroll
 Moby Dick; or The Whale	Herman Melville
