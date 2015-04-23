@@ -1,7 +1,6 @@
-package TwitterBot;
+package Scheduler;
 
-import java.io.IOException;
-
+import TwitterBot.NamexTweet;
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
@@ -14,9 +13,11 @@ import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterListener {
+	private long starttime;
 	private BookListenerSetup book = new BookListenerSetup();
 	
 	public TwitterListener(){
+		starttime = System.currentTimeMillis();
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true);
         cb.setOAuthConsumerKey("HC3PNXzjbLWtbdqPl0DpHwaDV");
@@ -89,6 +90,8 @@ public class TwitterListener {
 					}
 					//Check if the found tweet has a Author or Title hashtag. This info can be passed to the Namextweet
 					if(hashhit==1||hashhit==2){
+						long diff = (status.getCreatedAt().getTime() - starttime)/1000;
+						System.out.println("Time since listener began: " + diff + "secs");
 						System.out.print("\n---------\nThis is the "); 
 						if(hashhit==1)System.out.print("author ");
 						if(hashhit==2)System.out.print("title ");
@@ -105,10 +108,8 @@ public class TwitterListener {
 			    	    try {
 			    		nt.start(username, hashhit);
 			    	 		} catch (TwitterException e) {
-			    				// TODO Auto-generated catch block
 			    				e.printStackTrace();
-			    			} catch (IOException e) {
-			    				// TODO Auto-generated catch block
+			    			} catch (Exception e) {
 			    				e.printStackTrace();
 			    		}
 					}	
@@ -145,5 +146,6 @@ public class TwitterListener {
 	
 	public static void main(String[] args){
 		TwitterListener tl = new TwitterListener();
+		
 	}
 }

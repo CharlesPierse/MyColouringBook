@@ -36,6 +36,7 @@ public class NamexTweet {
 
     	twitter.setOAuthAccessToken(oathAccessToken);
 
+    	
 
     	StatusUpdate status = new StatusUpdate("@"+username+" I hope you are enjoying it, it's a very colourful book indeed #snotgreenSea");
     	status.setMedia(new File("resources"+File.separator+"tweetimages"+File.separator+"tweetFile.png"));
