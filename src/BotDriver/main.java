@@ -32,7 +32,7 @@ public class main {
 
 
 
-				HashSet<Book> bookList;
+				ArrayList<Book> bookList;
 				HashMap<Integer, String> pages; //pages of each book object.
 		
 				populater.populateBookPopulate(); //calls the book reader on all the books.

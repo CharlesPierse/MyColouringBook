@@ -50,7 +50,7 @@ public class TermFrequencyInverseDocumentFrequency {
 		}
 	}
 
-	public void writeToFile(HashSet<Book> bookList){
+	public void writeToFile(ArrayList<Book> bookList){
 		File file;
 		FileWriter writer;
 		ArrayList<Page> pages;

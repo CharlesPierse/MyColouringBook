@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -15,9 +16,9 @@ public class BookObjectPopulater {
 	private String filePath = "resources" + File.separator +"books" + File.separator + "Book_";
 	private String fileExtension = ".txt";
 	public int lastBookNumber = 38; //needed public
-	private HashSet<Book> bookList = new HashSet<Book>();
+	private ArrayList<Book> bookList = new ArrayList<Book>();
 
-	public HashSet<Book> getBookList() {
+	public ArrayList<Book> getBookList() {
 		return bookList;
 	}
 	
