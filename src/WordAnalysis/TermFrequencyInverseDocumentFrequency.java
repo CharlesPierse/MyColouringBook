@@ -3,6 +3,7 @@ package WordAnalysis;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import BasicBookReader.Book;
+import BasicBookReader.Page;
 
 
 public class TermFrequencyInverseDocumentFrequency {
@@ -24,20 +26,21 @@ public class TermFrequencyInverseDocumentFrequency {
 		return frequency;
 	}
 
-	private double inverseDocumentFrequency(String term, HashMap<Integer, String> book){ //the full directory of texts parameter is not needed, as it is an instance variable.
+	private double inverseDocumentFrequency(String term, ArrayList<Page> pages){ //the full directory of texts parameter is not needed, as it is an instance variable.
 		double denomonator = 0;
-		for(String page : book.values())
+		for(Page page : pages)
 		{
-			if(page.contains(term)){
+			String text = page.getText();
+			if(text.contains(term)){
 				denomonator++; //+= bookData.get(term);
 			}
 		}
-		return Math.log10(book.size()/denomonator);
+		return Math.log10(pages.size()/denomonator);
 	}
 
-	public double tfIdf(String term, String[] page, HashMap<Integer, String> book){
+	public double tfIdf(String term, String[] page, ArrayList<Page> pages){
 		double tf = termFrequency(term, page);
-		double idf = inverseDocumentFrequency(term, book);
+		double idf = inverseDocumentFrequency(term, pages);
 		double result = tf*idf;
 		if(Double.isNaN(result)){
 			return -1;
@@ -46,46 +49,49 @@ public class TermFrequencyInverseDocumentFrequency {
 			return result;
 		}
 	}
-	
-	public void writeToFile(HashSet<Book> bookList){
-		PrintWriter writer;
-		int bookLimit = 10;
-		int pageLimit = 10;
-		HashMap<Integer, String> pages;
-		
-		for(Book book : bookList){
-			if(bookLimit > 0){//-------------------------------------------
-				bookLimit--;//-------------------------------------------
-				pages = book.getBook();
-				for(int key : pages.keySet()){
-					if(key <= pageLimit){//-------------------------------------------
-						try {
-							writer = new PrintWriter("resources" + File.separator + "books" + File.separator + "book_" + bookLimit + File.separator + "Page_" + key + ".txt", "UTF-8");
-							String[] splitCurrentPage = pages.get(key).replaceAll("\\p{P}", "").split(" "); //remove the punctuation from page and then splits it at whitespacs.
-							for(String word : splitCurrentPage){
-								double value = tfIdf(word, splitCurrentPage, pages);
-								if(value > 1 && value < 100){
-									writer.println(word + "\t" + value);
-								}
-							}
-							writer.close();
 
-						} catch (Exception e) {
-							e.printStackTrace();
+	public void writeToFile(HashSet<Book> bookList){
+		File file;
+		FileWriter writer;
+		ArrayList<Page> pages;
+		int currentBookNumber = 0;
+		int currentPageNumber = 0;
+
+		for(Book book : bookList){
+			currentBookNumber++;
+			pages = book.getPages();
+			for(Page page : pages){
+				currentPageNumber++;
+				System.out.println("Book " + currentBookNumber + "\tPage : " + currentPageNumber);
+				String text = page.getText().toLowerCase().replaceAll("\\p{P}", "").replaceAll("chapter", "").replaceAll("[0-9]", "");
+				String tokens[] = text.split(" ");
+				try {
+					file = new File("resources" + File.separator + "books" + File.separator + "book_" + currentBookNumber + File.separator + "Page_" + currentPageNumber + ".txt");
+					file.getParentFile().mkdirs();
+					writer = new FileWriter(file);
+					double value;
+					for(String token : tokens){
+						value = tfIdf(token, tokens, pages);
+						if(value > 1 && value < 100){
+							writer.write(token + "\t" + value + "\n");
 						}
 					}
+					writer.close();
+				} catch (Exception e) {
+					// TODO: handle exception
 				}
 			}
+			currentPageNumber = 0;
 		}
 	}
-	
+
 	public HashMap<String, Double> readFile(int bookNumber, int pageNo){
 		HashMap<String, Double> pageInfo = new HashMap<String, Double>();
 		try{
 			FileInputStream fis = new FileInputStream("resources" + File.separator + "books" + File.separator + "book_" + bookNumber + File.separator + "Page_" + pageNo + ".txt");
 			BufferedReader br = new BufferedReader(new InputStreamReader(fis,"UTF-8"));
 			String line = "";
-			
+
 			while((line=br.readLine().toLowerCase())!=null){
 				String tokens[] = line.split("\t");
 				pageInfo.put(tokens[0], Double.parseDouble(tokens[1]));

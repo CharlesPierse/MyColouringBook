@@ -29,7 +29,6 @@ public class BookObjectPopulater {
 	
 	private void readBook(int bookNumber){
 		Book bookObject = null;
-		HashMap<Integer, String> book = new HashMap<Integer, String>();
 		image testImage;
 		boolean allowedRead = false;
 		int currentCharCount = 0;
@@ -44,6 +43,7 @@ public class BookObjectPopulater {
 		String author = "";
 
 		try{
+			bookObject = new Book();
 			fis = new FileInputStream(filePath + bookNumber + fileExtension);
 			br = new BufferedReader(new InputStreamReader(fis,"UTF-8"));
 			while((line=br.readLine().toLowerCase())!=null){
@@ -73,7 +73,6 @@ public class BookObjectPopulater {
 							currentPage += (" " + line.substring(0, pageCharLimit-currentCharCount));
 							
 							bookObject.addPage(currentPage, currentPageNumber);
-							book.put(currentPageNumber, currentPage);
 							overflow += (" " + line.substring(pageCharLimit-currentCharCount+1, line.length()));
 							currentPage = "";
 							currentCharCount = 0;
@@ -86,14 +85,13 @@ public class BookObjectPopulater {
 						allowedRead = true;
 					}
 					else if(line.contains("Title:")){
-						title = line.substring(7, line.length());
+						bookObject.setTitle(line.substring(7, line.length()));
 					}
 					else if(line.contains("Author:")){
-						author = line.substring(8, line.length());
+						bookObject.setAuthor(line.substring(8, line.length()));
 					}
 				}
 			}
-			bookObject = new Book(book, title, author, new int[0]);
 			bookList.add(bookObject);
 		} catch(Exception e){
 			e.printStackTrace();

@@ -10,11 +10,11 @@ public class Book {
 	private String author;
 	private int[] tweetedPages;
 	
-	public Book(HashMap<Integer, String> book, String title, String author, int[] tweetedPages) {
-		this.book = book;
-		this.title = title;
-		this.author = author;
-		this.tweetedPages = tweetedPages;
+	public Book() {
+		this.book = null;
+		this.title = null;
+		this.author = null;
+		this.tweetedPages = null;
 		this.pages=new ArrayList<Page>();
 	}
 	
@@ -27,6 +27,26 @@ public class Book {
 		p.setNumber(number);
 		p.setText(text);
 		this.pages.add(p);
+	}
+
+	public ArrayList<Page> getPages() {
+		return pages;
+	}
+
+	public void setPages(ArrayList<Page> pages) {
+		this.pages = pages;
+	}
+
+	public void setBook(HashMap<Integer, String> book) {
+		this.book = book;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public void setTweetedPages(int[] tweetedPages) {
