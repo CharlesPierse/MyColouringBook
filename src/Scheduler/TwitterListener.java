@@ -1,5 +1,7 @@
 package Scheduler;
 
+import java.util.ArrayList;
+
 import TwitterBot.NamexTweet;
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
@@ -12,11 +14,13 @@ import twitter4j.TwitterStreamFactory;
 import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class TwitterListener {
+public class TwitterListener{
 	private long starttime;
 	private BookListenerSetup book = new BookListenerSetup();
+	private ArrayList<ArrayList<String>> organizedRetweets = new ArrayList<ArrayList<String>>();
+	private volatile boolean anyfound = false;
 	
-	public TwitterListener(){
+	public TwitterListener(ArrayList<String> tweeted, int running){
 		starttime = System.currentTimeMillis();
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true);
@@ -55,6 +59,7 @@ public class TwitterListener {
 			@Override
 			public void onStatus(Status status) {
 				if(!status.isRetweet()){
+					int booknum = 0;
 					int hashhit = 0;
 					User user = status.getUser();
 					String tweet = status.getText().toLowerCase();
@@ -69,6 +74,7 @@ public class TwitterListener {
 									hash = title[x];
 									found = true;
 									hashhit = 2;
+									booknum = x;
 								}
 							}
 							}
@@ -83,6 +89,7 @@ public class TwitterListener {
 										hash = auth[x];
 										found = true;
 										hashhit = 1;
+										booknum = x;
 									}
 								}
 							}
@@ -90,8 +97,30 @@ public class TwitterListener {
 					}
 					//Check if the found tweet has a Author or Title hashtag. This info can be passed to the Namextweet
 					if(hashhit==1||hashhit==2){
-						long diff = (status.getCreatedAt().getTime() - starttime)/1000;
-						System.out.println("Time since listener began: " + diff + "secs");
+						long time = (status.getCreatedAt().getTime() - starttime)/1000;
+						tweetOrganizer to = null;
+						if(book.getAuthFull(booknum)!=null){
+							to = new tweetOrganizer(status.getUser().getScreenName(), hash, hashhit, time, tweeted, book.getTitleFull(booknum),book.getAuthFull(booknum));
+						} else{
+							to = new tweetOrganizer(status.getUser().getScreenName(), hash, hashhit, time, tweeted, book.getTitleFull(booknum));
+						}
+						if(to!=null){
+							organizedRetweets.add(to.getTweetInfo());
+						}
+						
+						//Shutdown listener once it finds a status and has gone passed running secs
+				        if(starttime+(running*1000)<System.currentTimeMillis()){
+				        	twitterStream.shutdown();
+				        	twitterStream.cleanUp();
+				        	if(organizedRetweets.isEmpty()){
+				        		System.out.println("Is empty");
+				        	}else{
+				        		anyfound = true;
+				        		System.out.println("Got entries");
+				        	}
+				        }
+						
+						/*System.out.println("Time since listener began: " + diff + "secs");
 						System.out.print("\n---------\nThis is the "); 
 						if(hashhit==1)System.out.print("author ");
 						if(hashhit==2)System.out.print("title ");
@@ -111,8 +140,8 @@ public class TwitterListener {
 			    				e.printStackTrace();
 			    			} catch (Exception e) {
 			    				e.printStackTrace();
-			    		}
-					}	
+			    		}*/
+					}
 				}
 			}
 
@@ -144,8 +173,13 @@ public class TwitterListener {
 
 	}
 	
-	public static void main(String[] args){
-		TwitterListener tl = new TwitterListener();
-		
+	public long getStart(){
+		return starttime;
+	}
+	public ArrayList<ArrayList<String>> getTweets(){
+		return organizedRetweets;
+	}
+	public boolean hasTweets(){
+		return anyfound;
 	}
 }
