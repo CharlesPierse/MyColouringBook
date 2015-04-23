@@ -9,10 +9,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import twitter4j.ResponseList;
-import twitter4j.Status;
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -25,8 +21,7 @@ public class NamexTweet {
     private final static String CONSUMER_KEY = "HC3PNXzjbLWtbdqPl0DpHwaDV";
     private final static String CONSUMER_KEY_SECRET = "gSG5gM5cOsbhiXryUyRKEtS3FAAR5CWLkXtQOZzXS6FyYGXZrh";
 
-    public void start(String uname, int hit) throws TwitterException, IOException {
-    	String username = uname;
+    public void start(StatusUpdate status) throws TwitterException, IOException {
     	Twitter twitter = new TwitterFactory().getInstance();
     	twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_KEY_SECRET);
 
@@ -35,16 +30,7 @@ public class NamexTweet {
     	AccessToken oathAccessToken = new AccessToken(accessToken,accessTokenSecret);
 
     	twitter.setOAuthAccessToken(oathAccessToken);
-
-    	
-
-    	StatusUpdate status = new StatusUpdate("@"+username+" I hope you are enjoying it, it's a very colourful book indeed #snotgreenSea");
-    	status.setMedia(new File("resources"+File.separator+"tweetimages"+File.separator+"tweetFile.png"));
-    	if(hit==1){
-    		System.out.println("-----Author-----");
-    	}else if(hit==2){
-    		System.out.println("-----Title-----");
-    	}
+    	System.out.println(status.getStatus());
     	//twitter.updateStatus(status);
     }
 

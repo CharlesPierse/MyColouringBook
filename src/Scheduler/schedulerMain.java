@@ -3,7 +3,11 @@ package Scheduler;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import twitter4j.TwitterException;
+import TwitterBot.NamexTweet;
 
 public class schedulerMain {
 	
@@ -11,25 +15,19 @@ public class schedulerMain {
 	
 	public schedulerMain(){
         String fileName = "resources"+File.separator+"retweeted"+File.separator+"retweeted.txt";
-
         String line = null;
-
         try {
             FileReader fileReader = new FileReader(fileName);
-
             BufferedReader bufferedReader = new BufferedReader(fileReader);
-
             while((line = bufferedReader.readLine()) != null) {
                 tweeted.add(line);
             }    
-
             bufferedReader.close();            
         }
         catch(Exception ex) {
             ex.printStackTrace();
         }
     }
-
 	
 	public void run(int secs) {
 		long starttime = System.currentTimeMillis();
@@ -45,14 +43,17 @@ public class schedulerMain {
 		
 		tl.endStream(); //Just in case ;)
 		if(!tweets.isEmpty()){
-			for(ArrayList<String> al : tweets){
-				for(String st : al){
-					System.out.print(st + " ");
-				}
-				System.out.print("\n");
+			tweetPicker tp = new tweetPicker(tweets);
+			NamexTweet nxt = new NamexTweet();
+			try {
+				nxt.start(tp.getStatus());
+			} catch (TwitterException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}else{
-			System.out.println("No tweets found in " + secs+ " or so seconds");
+			System.out.println("No tweets found");
 		}
 	}
 	

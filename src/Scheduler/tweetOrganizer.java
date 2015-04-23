@@ -18,6 +18,7 @@ public class tweetOrganizer {
 				tweet.add(author);
 				//Could be null
 				tweet.add(title);
+				tweet.add(hashtag);
 				/*
 				 * 
 				 * Will add details on 
@@ -35,6 +36,7 @@ public class tweetOrganizer {
 				 * coour and subject of book??/
 				 * 
 				 */
+				tweet.add(hashtag);
 			}
 		}
 	}
