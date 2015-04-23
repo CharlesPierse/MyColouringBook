@@ -62,7 +62,6 @@ public class TermFrequencyInverseDocumentFrequency {
 			pages = book.getPages();
 			for(Page page : pages){
 				currentPageNumber++;
-				System.out.println("Book " + currentBookNumber + "\tPage : " + currentPageNumber);
 				String text = page.getText().toLowerCase().replaceAll("\\p{P}", "").replaceAll("chapter", "").replaceAll("[0-9]", "");
 				String tokens[] = text.split(" ");
 				try {
