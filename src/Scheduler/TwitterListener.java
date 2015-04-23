@@ -17,8 +17,12 @@ public class TwitterListener{
 	private ArrayList<ArrayList<String>> organizedRetweets = new ArrayList<ArrayList<String>>();
 	private volatile boolean anyfound = false;
 	private TwitterStream twitterStream;
+	private int running;
+	private ArrayList<String> tweeted;
 	
-	public TwitterListener(ArrayList<String> tweeted, int running){
+	public TwitterListener(ArrayList<String> tw, int run){
+		running = run;
+		tweeted = tw;
 		starttime = System.currentTimeMillis();
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setDebugEnabled(true);

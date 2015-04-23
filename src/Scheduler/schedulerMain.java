@@ -58,7 +58,7 @@ public class schedulerMain {
 	
 	public static void main(String[] args) {
 		schedulerMain sm = new schedulerMain();
-		//run for however many seconds you like
-		sm.run(300);
+		//run for however many seconds you like	
+		sm.run(60);
 	}
 }

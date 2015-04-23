@@ -12,7 +12,6 @@ public class tweetOrganizer {
 	
 	public tweetOrganizer(String user, String hashtag, int type, long time, ArrayList<String> tweeted, String title, String author){
 		if(!tweeted.contains(user)){
-			System.out.println("We're gonna tweet " + title + " by " + author + " to " + user);
 			if(type==1){
 				tweet.add("Type 1");
 				tweet.add(user);
