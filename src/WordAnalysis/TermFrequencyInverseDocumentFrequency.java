@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import BasicBookReader.BookObject;
+import BasicBookReader.Book;
 
 
 public class TermFrequencyInverseDocumentFrequency {
@@ -47,13 +47,13 @@ public class TermFrequencyInverseDocumentFrequency {
 		}
 	}
 	
-	public void writeToFile(HashSet<BookObject> bookList){
+	public void writeToFile(HashSet<Book> bookList){
 		PrintWriter writer;
 		int bookLimit = 10;
 		int pageLimit = 10;
 		HashMap<Integer, String> pages;
 		
-		for(BookObject book : bookList){
+		for(Book book : bookList){
 			if(bookLimit > 0){//-------------------------------------------
 				bookLimit--;//-------------------------------------------
 				pages = book.getBook();
@@ -64,7 +64,7 @@ public class TermFrequencyInverseDocumentFrequency {
 							String[] splitCurrentPage = pages.get(key).replaceAll("\\p{P}", "").split(" "); //remove the punctuation from page and then splits it at whitespacs.
 							for(String word : splitCurrentPage){
 								double value = tfIdf(word, splitCurrentPage, pages);
-								if(value > 0 && value < 100){
+								if(value > 1 && value < 100){
 									writer.println(word + "\t" + value);
 								}
 							}

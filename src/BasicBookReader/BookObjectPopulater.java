@@ -15,9 +15,9 @@ public class BookObjectPopulater {
 	private String filePath = "resources" + File.separator +"books" + File.separator + "Book_";
 	private String fileExtension = ".txt";
 	public int lastBookNumber = 38; //needed public
-	private HashSet<BookObject> bookList = new HashSet<BookObject>();
+	private HashSet<Book> bookList = new HashSet<Book>();
 
-	public HashSet<BookObject> getBookList() {
+	public HashSet<Book> getBookList() {
 		return bookList;
 	}
 	
@@ -28,7 +28,7 @@ public class BookObjectPopulater {
 	}
 	
 	private void readBook(int bookNumber){
-		BookObject bookObject;
+		Book bookObject = null;
 		HashMap<Integer, String> book = new HashMap<Integer, String>();
 		image testImage;
 		boolean allowedRead = false;
@@ -71,6 +71,8 @@ public class BookObjectPopulater {
 						}
 						else{
 							currentPage += (" " + line.substring(0, pageCharLimit-currentCharCount));
+							
+							bookObject.addPage(currentPage, currentPageNumber);
 							book.put(currentPageNumber, currentPage);
 							overflow += (" " + line.substring(pageCharLimit-currentCharCount+1, line.length()));
 							currentPage = "";
@@ -91,7 +93,7 @@ public class BookObjectPopulater {
 					}
 				}
 			}
-			bookObject = new BookObject(book, title, author, new int[0]);
+			bookObject = new Book(book, title, author, new int[0]);
 			bookList.add(bookObject);
 		} catch(Exception e){
 			e.printStackTrace();
@@ -101,7 +103,7 @@ public class BookObjectPopulater {
 	private void saveNameAuthor(){
 		try {
 			PrintWriter writer = new PrintWriter("resources"+File.separator+"NamesAuthors.txt", "UTF-8");
-			for(BookObject Object : bookList){
+			for(Book Object : bookList){
 					writer.println(Object.getTitle() + "\t" + Object.getAuthor());
 			}
 			writer.close();

@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import net.didion.jwnl.JWNL;
 import net.didion.jwnl.data.IndexWord;
@@ -18,13 +17,9 @@ import net.didion.jwnl.dictionary.Dictionary;
 
 import org.apache.log4j.BasicConfigurator;
 
-import BasicBookReader.BookObject;
-import BasicBookReader.BookObjectPopulater;
-import ClassTrainer.TrainerBuilder;
-
 public class wordBrowser {
 	Dictionary dictionary ;
-	
+
 	private void writeFile(){
 		PrintWriter writer;
 		try{ 
@@ -35,71 +30,85 @@ public class wordBrowser {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void initialise(String filePath){
 		try {
 			JWNL.initialize(new FileInputStream(filePath));
-			 dictionary = Dictionary.getInstance();
+			dictionary = Dictionary.getInstance();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	public POS convertPOS(String pos) {
-        if (pos.startsWith("JJ")) {
-            return POS.ADJECTIVE;
-        }
-        if (pos.startsWith("NN")) {
-            return POS.NOUN;
-        }
-        if (pos.startsWith("VB")) {
-            return POS.VERB;
-        }
-        if (pos.startsWith("RB")) {
-            return POS.ADVERB;
-        }
-        return POS.NOUN;
-    }
+		if (pos.startsWith("JJ")) {
+			return POS.ADJECTIVE;
+		}
+		if (pos.startsWith("NN")) {
+			return POS.NOUN;
+		}
+		if (pos.startsWith("VB")) {
+			return POS.VERB;
+		}
+		if (pos.startsWith("RB")) {
+			return POS.ADVERB;
+		}
+		return POS.NOUN;
+	}
 
 
 	public StringBuffer wordnet_hypernymTreeRecursive(String word, String pos) {
-        StringBuffer sb = null;
-        try {
-            POS p = this.convertPOS(pos);
-            IndexWord f = dictionary.getIndexWord(p, word);
-            if (f != null) {
-            	sb = new StringBuffer();
-                for (int i = 1; i <= f.getSenseCount(); i++) {
-                    sb.append(wordnet_hypernymTreeRecursive(new PointerTargetNode(f.getSense(i)), new StringBuffer()));
-                    Word[] words = f.getSense(i).getWords();
-                    StringBuffer sbtemp = new StringBuffer();
-                    for (int j = 0; j < words.length; j++) {
-                        sbtemp.append(words[j].getLemma() + "\t");
-                    }
-                    sb.append(sbtemp.toString().trim()).append("\n");
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return sb;
-    }
+		StringBuffer sb = null;
+		try {
+			POS p = this.convertPOS(pos);
+			IndexWord f = dictionary.getIndexWord(p, word);
+			if (f != null) {
+				sb = new StringBuffer();
+				for (int i = 1; i <= f.getSenseCount(); i++) {
+					sb.append(wordnet_hypernymTreeRecursive(new PointerTargetNode(f.getSense(i)), new StringBuffer()));
+					Word[] words = f.getSense(i).getWords();
+					StringBuffer sbtemp = new StringBuffer();
+					for (int j = 0; j < words.length; j++) {
+						sbtemp.append(words[j].getLemma() + "\t");
+					}
+					sb.append(sbtemp.toString().trim()).append("\n");
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+//		String s  = sb.substring(0, sb.length());
+//		String pipelines[] = s.split("\n");
+//		//pipelines.
+		return sb;
 
-public StringBuffer wordnet_hypernymTreeRecursive(PointerTargetNode n, StringBuffer sb) {
-    try {
-        PointerTargetNodeList directHypernyms = PointerUtils.getInstance().getDirectHypernyms(n.getSynset());
-        for (int k = 0; k < directHypernyms.size(); k++) {
-            PointerTargetNode p = (PointerTargetNode) directHypernyms.get(k);
-            wordnet_hypernymTreeRecursive(p, sb);
-            Word[] words = p.getSynset().getWords();
-            StringBuffer sbtemp = new StringBuffer();
-            for (int i = 0; i < words.length; i++) {
-                sbtemp.append(words[i].getLemma() + "\t");
-            }
-            sb.append(sbtemp.toString().trim()).append("|");
-        }
-    } catch (Exception e) {
-       // e.printStackTrace();
-    }
-    return sb;
-}
+	}
+
+	public StringBuffer wordnet_hypernymTreeRecursive(PointerTargetNode n, StringBuffer sb) {
+		try {
+			PointerTargetNodeList directHypernyms = PointerUtils.getInstance().getDirectHypernyms(n.getSynset());
+			for (int k = 0; k < directHypernyms.size(); k++) {
+				PointerTargetNode p = (PointerTargetNode) directHypernyms.get(k);
+				wordnet_hypernymTreeRecursive(p, sb);
+				Word[] words = p.getSynset().getWords();
+				StringBuffer sbtemp = new StringBuffer();
+				for (int i = 0; i < words.length; i++) {
+					sbtemp.append(words[i].getLemma() + "\t");
+				}
+				sb.append(sbtemp.toString().trim()).append("|");
+			}
+		} catch (Exception e) {
+			// e.printStackTrace();
+		}
+		return sb;
+	}
+
+
+	public static void main(String[] args) {
+		wordBrowser wb = new wordBrowser();
+		BasicConfigurator.configure();
+		wb.initialise("resources" + File.separator + "WordNet" + File.separator + "props.xml");
+		String word = "fire";
+		
+		
+	}
 }
