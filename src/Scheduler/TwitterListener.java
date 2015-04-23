@@ -2,16 +2,13 @@ package Scheduler;
 
 import java.util.ArrayList;
 
-import TwitterBot.NamexTweet;
 import twitter4j.FilterQuery;
 import twitter4j.StallWarning;
 import twitter4j.Status;
 import twitter4j.StatusDeletionNotice;
 import twitter4j.StatusListener;
-import twitter4j.TwitterException;
 import twitter4j.TwitterStream;
 import twitter4j.TwitterStreamFactory;
-import twitter4j.User;
 import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterListener{
@@ -19,6 +16,7 @@ public class TwitterListener{
 	private BookListenerSetup book = new BookListenerSetup();
 	private ArrayList<ArrayList<String>> organizedRetweets = new ArrayList<ArrayList<String>>();
 	private volatile boolean anyfound = false;
+	private TwitterStream twitterStream;
 	
 	public TwitterListener(ArrayList<String> tweeted, int running){
 		starttime = System.currentTimeMillis();
@@ -29,7 +27,7 @@ public class TwitterListener{
         cb.setOAuthAccessToken("3003436679-6idXjsJs74dxLyY4MRP7UCKdMXZgU47LVFWtIJJ");
         cb.setOAuthAccessTokenSecret("kxmKTCtnb9phscEsP7NyGsmMde2Z6wgMDGHMolmmqvsus");
 
-        TwitterStream twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
+        twitterStream = new TwitterStreamFactory(cb.build()).getInstance();
         StatusListener listener = new StatusListener() {
 
 			@Override
@@ -61,7 +59,6 @@ public class TwitterListener{
 				if(!status.isRetweet()){
 					int booknum = 0;
 					int hashhit = 0;
-					User user = status.getUser();
 					String tweet = status.getText().toLowerCase();
 					String hash = "";
 					boolean found = false;
@@ -106,41 +103,20 @@ public class TwitterListener{
 						}
 						if(to!=null){
 							organizedRetweets.add(to.getTweetInfo());
+							//Make sure we dont gather too many tweets
+							if(organizedRetweets.size()>49){
+								endStream();
+								anyfound = true;
+							}
 						}
 						
 						//Shutdown listener once it finds a status and has gone passed running secs
 				        if(starttime+(running*1000)<System.currentTimeMillis()){
-				        	twitterStream.shutdown();
-				        	twitterStream.cleanUp();
-				        	if(organizedRetweets.isEmpty()){
-				        		System.out.println("Is empty");
-				        	}else{
+				        	endStream();
+				        	if(!organizedRetweets.isEmpty()){
 				        		anyfound = true;
-				        		System.out.println("Got entries");
 				        	}
 				        }
-						
-						/*System.out.println("Time since listener began: " + diff + "secs");
-						System.out.print("\n---------\nThis is the "); 
-						if(hashhit==1)System.out.print("author ");
-						if(hashhit==2)System.out.print("title ");
-						System.out.println("hashtag  " +hash+"\n---------");
-						String username = status.getUser().getScreenName();
-						System.out.println(username);		
-						String profileLocation = user.getLocation();
-						System.out.println(profileLocation);
-						long tweetId = status.getId(); 
-						System.out.println(tweetId);
-						String content = status.getText();
-						System.out.println(content +"\n");
-						NamexTweet nt = new NamexTweet();
-			    	    try {
-			    		nt.start(username, hashhit);
-			    	 		} catch (TwitterException e) {
-			    				e.printStackTrace();
-			    			} catch (Exception e) {
-			    				e.printStackTrace();
-			    		}*/
 					}
 				}
 			}
@@ -171,6 +147,11 @@ public class TwitterListener{
         twitterStream.addListener(listener);
         twitterStream.filter(fq);
 
+	}
+	
+	public void endStream(){
+    	twitterStream.shutdown();
+    	twitterStream.cleanUp();
 	}
 	
 	public long getStart(){

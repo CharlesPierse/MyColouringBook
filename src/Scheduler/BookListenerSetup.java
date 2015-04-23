@@ -65,11 +65,12 @@ public class BookListenerSetup {
 				title.add("#"+Bookvalues[0]);
 				if(Bookvalues.length>1){
 					Author_full.add(Bookvalues[1]);
-					Bookvalues[0] = Bookvalues[1].replaceAll(" ", "");
-					Bookvalues[0] = Bookvalues[1].replaceAll("\\p{P}", "");
+					Bookvalues[1] = Bookvalues[1].replaceAll(" ", "");
+					Bookvalues[1] = Bookvalues[1].replaceAll("\\p{P}", "");
 					Auth.add("#"+Bookvalues[1].replace(" ", ""));
 				}else{
 					Author_full.add(null);
+					Auth.add(null);
 				}
 
 			}
