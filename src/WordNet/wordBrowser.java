@@ -76,9 +76,7 @@ public class wordBrowser {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-//		String s  = sb.substring(0, sb.length());
-//		String pipelines[] = s.split("\n");
-//		//pipelines.
+
 		return sb;
 
 	}
@@ -101,14 +99,5 @@ public class wordBrowser {
 		}
 		return sb;
 	}
-
-
-	public static void main(String[] args) {
-		wordBrowser wb = new wordBrowser();
-		BasicConfigurator.configure();
-		wb.initialise("resources" + File.separator + "WordNet" + File.separator + "props.xml");
-		String word = "fire";
-		
-		
-	}
+	
 }

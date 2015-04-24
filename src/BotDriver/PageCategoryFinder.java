@@ -16,61 +16,48 @@ import WordNet.wordBrowser;
 
 
 public class PageCategoryFinder {
-	wordBrowser wordBrowser;
-	
-	public PageCategoryFinder() {
-		
 
-
-		// TODO Auto-generated constructor stub
-	}
-	public wordBrowser getWordBrowser() {
-		return wordBrowser;
-	}
-	public void setWordBrowser(wordBrowser wordBrowser) {
-		this.wordBrowser = wordBrowser;
-	}
 	public LinkedHashMap sortHashMapByValuesD(HashMap passedMap) {
-		   List mapKeys = new ArrayList(passedMap.keySet());
-		   List mapValues = new ArrayList(passedMap.values());
-		   Collections.sort(mapValues, Collections.reverseOrder());
-		   Collections.sort(mapKeys, Collections.reverseOrder());
+		List mapKeys = new ArrayList(passedMap.keySet());
+		List mapValues = new ArrayList(passedMap.values());
+		Collections.sort(mapValues, Collections.reverseOrder());
+		Collections.sort(mapKeys, Collections.reverseOrder());
 
-		   LinkedHashMap sortedMap = new LinkedHashMap();
+		LinkedHashMap sortedMap = new LinkedHashMap();
 
-		   Iterator valueIt = mapValues.iterator();
-		   while (valueIt.hasNext()) {
-		       Object val = valueIt.next();
-		       Iterator keyIt = mapKeys.iterator();
+		Iterator valueIt = mapValues.iterator();
+		while (valueIt.hasNext()) {
+			Object val = valueIt.next();
+			Iterator keyIt = mapKeys.iterator();
 
-		       while (keyIt.hasNext()) {
-		           Object key = keyIt.next();
-		           String comp1 = passedMap.get(key).toString();
-		           String comp2 = val.toString();
+			while (keyIt.hasNext()) {
+				Object key = keyIt.next();
+				String comp1 = passedMap.get(key).toString();
+				String comp2 = val.toString();
 
-		           if (comp1.equals(comp2)){
-		               passedMap.remove(key);
-		               mapKeys.remove(key);
-		               sortedMap.put((String)key, (Integer)val);
-		               break;
-		           }
+				if (comp1.equals(comp2)){
+					passedMap.remove(key);
+					mapKeys.remove(key);
+					sortedMap.put((String)key, (Integer)val);
+					break;
+				}
 
-		       }
+			}
 
-		   }
-		   return sortedMap;
 		}
-	
-	public HashMap<String, Integer> getTopCategories(TermFrequencyInverseDocumentFrequency termFrequency, int bookNumber , int pageNumber, double depthLevel){
+		return sortedMap;
+	}
+
+	public HashMap<String, Integer> getTopCategories(ArrayList<String> wordsInPage, double depthLevel){
+		wordBrowser wordBrowser = new wordBrowser();
+		wordBrowser.initialise("resources" + File.separator + "WordNet" + File.separator + "props.xml");
 		HashMap<String, Integer> count=new HashMap<String,Integer>();
 		ValueComparator bvc=new ValueComparator(count);
 		StringBuffer sb =  new StringBuffer();
-		
-		HashMap<String, Double> pageInfo = termFrequency.readFile(bookNumber, pageNumber);
+
 		sb=new StringBuffer();
-		for(String word : pageInfo.keySet()){
-	
-			StringBuffer s1=wordBrowser.wordnet_hypernymTreeRecursive(word, "VB");
+		for(String word : wordsInPage){
+			StringBuffer s1 = wordBrowser.wordnet_hypernymTreeRecursive(word, "VB");
 			if(s1!=null){
 				String output1 = s1.toString();
 				String lines[]=output1.split("\n");
@@ -98,7 +85,7 @@ public class PageCategoryFinder {
 					sb.append(token[index].trim()).append("\t");
 				}
 				String token[] = sb.toString().split("\t");
-				
+
 				for (int i = 0; i < token.length; i++) {
 					if(!count.containsKey(token[i])){
 						count.put(token[i], 0);
@@ -107,10 +94,22 @@ public class PageCategoryFinder {
 				}
 			}
 		}
-		
-		
+
 		LinkedHashMap sort_map=this.sortHashMapByValuesD(count);
 		return sort_map;
+	}
+
+	public HashMap<String,String> getPairings(ArrayList<String> WordsIn, double depthLevel){
+		HashMap<String,String> pairMap = new HashMap<String, String>();
+		HashMap<String, Integer> val = getTopCategories(WordsIn ,depthLevel);
+		for(String key : val.keySet()){
+			System.out.println(key + "\t" + val.get(key));
+		}
+
+		//	pairMap.put(WordsIn[], val);
+
+
+		return pairMap;
 	}
 
 }

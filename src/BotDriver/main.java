@@ -3,6 +3,7 @@ package BotDriver;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import BasicBookReader.Book;
@@ -14,37 +15,21 @@ public class main {
 	public static void main(String[] args) {
 
 		long start = System.currentTimeMillis();
-		//		wordBrowser wordBrowser = new wordBrowser();
-		//		BasicConfigurator.configure();
-		//		wordBrowser.initialise("resources"+File.separator+"WordNet"+File.separator+"props.xml");
-
-
-		//WILL BE COMMENTED OUT LATER SO THAT WE DONT COMPUTE THE TFIDF EVERYTIME
-
-		//		StringBuffer sb = new StringBuffer();
-		//		double depthLevel = 0.7;
-		//
-		//		for(int bookNumber = 0; bookNumber <= 9; bookNumber++){
-		//			for(int pageNumber = 0; pageNumber <= 9; pageNumber++){
-		//				PageCategoryFinder p = new PageCategoryFinder();
-		//				p.setWordBrowser(wordBrowser);
-		//				HashMap<String, Integer> map = p.getTopCategories(termFrequency, bookNumber, pageNumber, depthLevel);
-		//				
-		//				for(String key : map.keySet()){
-		//					System.out.println(key + "\t" + map.get(key));
-		//				}
-		//			}
-		//		}
+		
 		long end = System.currentTimeMillis();
 		System.out.println("Time taken : " + (end-start));
+		main m = new  main();
+		m.createTrainerFile();
 	}
 
 	private void createTrainerFile(){
 		BookObjectPopulater populater = new BookObjectPopulater();
 		TermFrequencyInverseDocumentFrequency termFrequency = new TermFrequencyInverseDocumentFrequency();
+		PageCategoryFinder categoryFinder = new PageCategoryFinder();
 
 		ArrayList<Book> bookList;
 		ArrayList<Page> pages; //pages of each book object.
+		ArrayList<String> importantWords;
 
 		populater.populateBookPopulate(); //calls the book reader on all the books.
 		bookList = populater.getBookList();// bookList = set of all the book objects
@@ -52,25 +37,28 @@ public class main {
 		for(Book book : bookList){
 			pages = book.getPages();
 			for(Page page : pages){
-				String text = replaceUndesirables(page.getText().toLowerCase());
+				importantWords = new ArrayList<String>();
+				String text =page.getText().toLowerCase().replaceAll("[^a-z ]", "");
 				String tokens[] = text.split(" ");
 				double value;
 				for(String token : tokens){
 					value = termFrequency.tfIdf(token, tokens, pages);
-					if(value < 1 && value > 100){ // >100 to remove infinities
-						
+					if(value > 1 && value < 100){ // >100 to remove infinities
+						importantWords.add(token);
 					}
 				}
+				categoryFinder.getPairings(importantWords, 0.8);
+				break;
 			}
 		}
 	}
-	
-	private String replaceUndesirables(String string){
-		string.replaceAll("\\p{P}", ""); //remove punctuation
-		string.replaceAll("chapter", ""); //removes the word chapter
-		string.replaceAll("[0-9]", ""); //removes numbers
-		return string;
-	}
+//	
+//	private String replaceUndesirables(String string){
+//		String output = string.replaceAll("\\p{P}", ""); //remove punctuation
+//		output = string.replaceAll("chapter", ""); //removes the word chapter
+//		output = string.replaceAll("[0-9]", ""); //removes numbers
+//		return output;
+//	}
 
 }
 
