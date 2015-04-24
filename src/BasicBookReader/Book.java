@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Book {
-	private HashMap<Integer, String> book; //Integer = page number, String[] = words
+//	private HashMap<Integer, String> book; //Integer = page number, String[] = words
 	ArrayList<Page> pages;
 	private String title;
 	private String author;
 	private int[] tweetedPages;
 	
 	public Book() {
-		this.book = null;
+//		this.book = null;
 		this.title = null;
 		this.author = null;
 		this.tweetedPages = null;
@@ -37,9 +37,9 @@ public class Book {
 		this.pages = pages;
 	}
 
-	public void setBook(HashMap<Integer, String> book) {
-		this.book = book;
-	}
+//	public void setBook(HashMap<Integer, String> book) {
+//		this.book = book;
+//	}
 
 	public void setTitle(String title) {
 		this.title = title;
@@ -53,9 +53,9 @@ public class Book {
 		this.tweetedPages = tweetedPages;
 	}
 
-	public HashMap<Integer, String> getBook() {
-		return book;
-	}
+//	public HashMap<Integer, String> getBook() {
+//		return book;
+//	}
 
 	public String getTitle() {
 		return title;

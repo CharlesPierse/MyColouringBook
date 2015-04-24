@@ -38,8 +38,8 @@ public class TermFrequencyInverseDocumentFrequency {
 		return Math.log10(pages.size()/denomonator);
 	}
 
-	public double tfIdf(String term, String[] page, ArrayList<Page> pages){
-		double tf = termFrequency(term, page);
+	public double tfIdf(String term, String[] wordsInPage, ArrayList<Page> pages){
+		double tf = termFrequency(term, wordsInPage);
 		double idf = inverseDocumentFrequency(term, pages);
 		double result = tf*idf;
 		if(Double.isNaN(result)){
