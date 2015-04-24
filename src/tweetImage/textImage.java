@@ -11,7 +11,7 @@ public class textImage {
 	
 	private BufferedImage img = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
 	
-	public textImage(String st){
+	public textImage(String st, Color col){
         String text = st;
 
         Graphics2D g2d = img.createGraphics();
@@ -34,8 +34,8 @@ public class textImage {
         g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
         g2d.setFont(font);
         fm = g2d.getFontMetrics();
-        g2d.setColor(Color.BLACK);
-        g2d.setBackground(Color.WHITE);
+        g2d.setColor(col);
+       // g2d.setBackground(col);
         g2d.drawString(text, 0, fm.getAscent());
         g2d.dispose();
 

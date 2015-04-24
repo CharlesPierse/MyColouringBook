@@ -20,9 +20,15 @@ public class tweetPicker {
 		int size = tweets.size();
 		Random rand = new Random();
 		ArrayList<String> cur = tweets.get(rand.nextInt(size));
+		System.out.println(cur);
 		String user = cur.get(1);
 		String title = cur.get(3);
-		String author = cur.get(2);
+		String author;
+		if(cur.get(2)!=null){
+			author = cur.get(2);
+		}else{
+			author = "";
+		}
 		String hashtag = cur.get(4);
 		String colour = "#95b87d"; //From colour
 		//Will get page from selected book
@@ -45,7 +51,7 @@ public class tweetPicker {
 		Writer output;
 		try {
 			output = new BufferedWriter(new FileWriter(filepath, true));
-			output.append(user);
+			output.append("\n"+user);
 			output.close();
 		} catch (IOException e) {
 			e.printStackTrace();
