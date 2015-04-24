@@ -18,7 +18,7 @@ public class image {
 	private String st = "resources"+File.separator+"tweetimages"+File.separator+"bookTemplate.png";
 	private BookCoverRetrieve bcr = new BookCoverRetrieve();
 	
-	public image(String bookname, String author, String c, String colourname){ //Shane I added the page number so that I could save multiple page images.
+	public image(String bookname, String author, String c, String booktext){ //Shane I added the page number so that I could save multiple page images.
 		try {
 		    img = ImageIO.read(new File(st));
 		    if(c.charAt(0)=='#'){
@@ -30,7 +30,19 @@ public class image {
 		    int r = Integer.parseInt(red, 16);
 		    int g = Integer.parseInt(green, 16);
 		    int b = Integer.parseInt(blue, 16);
-		    String[] words = colourname.split("\\s+");
+		    int a = 255;
+		    
+		    int col = (a << 24) | (r << 16) | (g << 8) | b;
+		    
+		    //Colour of page
+		    for(int x = 450; x<824;x++){
+		    	for(int y = 23;y<516;y++){
+		    		img.setRGB(x,y,col);
+		    	}
+		    }
+		    
+		    //Fix text to fit page
+		    String[] words = booktext.split("\\s+");
 		    int linelength = 0;
 		    ArrayList<String> para = new ArrayList<String>();
 		    String line = "";
@@ -45,11 +57,21 @@ public class image {
 		    		linelength = currentword.length()+1;
 		    	}
 		    }
+		    //Figure out text colour
+		    Color font;
+		    int distfromwhite = (r*r)+(g*g)+(b*b);
+		    int distfromblack = (int) (Math.pow((255-r), 2)+Math.pow((255-g), 2)+Math.pow((255-b), 2));
+		    if(distfromwhite>distfromblack){
+		    	font = Color.BLACK;
+		    }else {
+		    	font = Color.WHITE;
+		    }
 		    
+		    //Print text on page
 		   	for(String cur : para){
-			    textImage text = new textImage(cur);
+			    textImage text = new textImage(cur, font);
 			    BufferedImage txt  = text.getTextImage();
-			    txt = new TintImage(txt, new Color(r,g,b)).getTint();
+			    //txt = new TintImage(txt, new Color(r,g,b)).getTint();
 			    for(int x = 0; x<txt.getWidth();x++){
 			    	for(int y = 0;y<txt.getHeight();y++){
 			    		int col1 = txt.getRGB(x, y);
@@ -60,6 +82,7 @@ public class image {
 			    }
 		   	}
 
+		   	//Get book cover and fit to the page
 			BufferedImage cover = bcr.getBookImage(bookname, author);
 			if(cover!=null){
 				cover = getScaledImage(cover, 378, 493);
@@ -70,7 +93,7 @@ public class image {
 					}
 				}
 
-		    
+		    //Store image for the tweet
 		    File f = new File("resources/tweetimages/tweetFile.png");
 		    ImageIO.write(img, "PNG", f);
 			}else{
@@ -81,6 +104,7 @@ public class image {
 		}
 	}
 	
+	//Scale buffered image
 	public BufferedImage getScaledImage(BufferedImage image, int width, int height) {
 		try {
 		    int imageWidth  = image.getWidth();
