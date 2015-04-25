@@ -1,7 +1,10 @@
 package WordNet;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,20 +17,17 @@ import net.didion.jwnl.data.Word;
 import net.didion.jwnl.data.list.PointerTargetNode;
 import net.didion.jwnl.data.list.PointerTargetNodeList;
 import net.didion.jwnl.dictionary.Dictionary;
-
-import org.apache.log4j.BasicConfigurator;
+import BasicBookReader.Page;
 
 public class wordBrowser {
 	Dictionary dictionary ;
 
-	private void writeFile(){
-		PrintWriter writer;
-		try{ 
-			writer = new PrintWriter("resources" + File.separator + "trainFile.txt");
-			//writer.println();
-			//Need to know data type of class-features to print
-		} catch (Exception e){
-			e.printStackTrace();
+	public void writeTrainer(HashMap<String, ArrayList<String>> data, String text){
+		String category = data.keySet().iterator().next();
+		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("resources" + File.separator + "trainFile.txt", true)))) {
+		    out.println(category + "\t" + text);
+		}catch (IOException e) {
+		    //exception handling left as an exercise for the reader
 		}
 	}
 
