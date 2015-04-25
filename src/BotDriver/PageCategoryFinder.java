@@ -48,9 +48,7 @@ public class PageCategoryFinder {
 		return sortedMap;
 	}
 
-	public HashMap<String, Integer> getTopCategories(ArrayList<String> wordsInPage, double depthLevel){
-		wordBrowser wordBrowser = new wordBrowser();
-		wordBrowser.initialise("resources" + File.separator + "WordNet" + File.separator + "props.xml");
+	public HashMap<String, Integer> getTopCategories(ArrayList<String> wordsInPage, double depthLevel, wordBrowser wordBrowser){
 		HashMap<String, Integer> count=new HashMap<String,Integer>();
 		ValueComparator bvc=new ValueComparator(count);
 		StringBuffer sb =  new StringBuffer();
@@ -99,9 +97,9 @@ public class PageCategoryFinder {
 		return sort_map;
 	}
 
-	public HashMap<String,String> getPairings(ArrayList<String> WordsIn, double depthLevel){
+	public HashMap<String,String> getPairings(ArrayList<String> WordsIn, double depthLevel, wordBrowser wordBrowser){
 		HashMap<String,String> pairMap = new HashMap<String, String>();
-		HashMap<String, Integer> val = getTopCategories(WordsIn ,depthLevel);
+		HashMap<String, Integer> val = getTopCategories(WordsIn ,depthLevel, wordBrowser);
 		for(String key : val.keySet()){
 			System.out.println(key + "\t" + val.get(key));
 		}

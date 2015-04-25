@@ -1,15 +1,17 @@
 package BotDriver;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
+
+import org.apache.log4j.BasicConfigurator;
 
 import BasicBookReader.Book;
 import BasicBookReader.BookObjectPopulater;
 import BasicBookReader.Page;
 import WordAnalysis.TermFrequencyInverseDocumentFrequency;
+import WordNet.wordBrowser;
 
 public class main {
 	public static void main(String[] args) {
@@ -26,6 +28,10 @@ public class main {
 		BookObjectPopulater populater = new BookObjectPopulater();
 		TermFrequencyInverseDocumentFrequency termFrequency = new TermFrequencyInverseDocumentFrequency();
 		PageCategoryFinder categoryFinder = new PageCategoryFinder();
+		
+		wordBrowser wordBrowser = new wordBrowser();
+		BasicConfigurator.configure();
+		wordBrowser.initialise("resources" + File.separator + "WordNet" + File.separator + "props.xml");
 
 		ArrayList<Book> bookList;
 		ArrayList<Page> pages; //pages of each book object.
@@ -47,7 +53,7 @@ public class main {
 						importantWords.add(token);
 					}
 				}
-				categoryFinder.getPairings(importantWords, 0.8);
+				categoryFinder.getPairings(importantWords, 0.8, wordBrowser);
 				break;
 			}
 		}
