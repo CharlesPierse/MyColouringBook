@@ -39,7 +39,7 @@ public class main {
 
 		populater.populateBookPopulate(); //calls the book reader on all the books.
 		bookList = populater.getBookList();// bookList = set of all the book objects
-
+		bookList.remove(0);
 		for(Book book : bookList){
 			pages = book.getPages();
 			for(Page page : pages){
@@ -49,11 +49,15 @@ public class main {
 				double value;
 				for(String token : tokens){
 					value = termFrequency.tfIdf(token, tokens, pages);
-					if(value > 1 && value < 100){ // >100 to remove infinities
+					if(value > 0.2 && value < 100){ // >100 to remove infinities
 						importantWords.add(token);
 					}
 				}
-				categoryFinder.getPairings(importantWords, 0.8, wordBrowser);
+//				for(String word : importantWords){
+//					System.out.println(word);
+//				}
+//				System.out.println("\n\n\n");
+				categoryFinder.getPairings(importantWords, 0.7, wordBrowser);
 				break;
 			}
 		}
