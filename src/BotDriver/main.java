@@ -26,6 +26,7 @@ public class main {
 
 	private void createTrainerFile(){
 		BookObjectPopulater populater = new BookObjectPopulater();
+		populater.readInPlurals();
 		TermFrequencyInverseDocumentFrequency termFrequency = new TermFrequencyInverseDocumentFrequency();
 		PageCategoryFinder categoryFinder = new PageCategoryFinder();
 		
@@ -48,43 +49,15 @@ public class main {
 				String tokens[] = text.split(" ");
 				double value;
 				for(String token : tokens){
-					value = termFrequency.tfIdf(token, tokens, pages);
+					String singularToken = populater.pluralToSingular(token);
+					value = termFrequency.tfIdf(singularToken, tokens, pages);
 					if(value > 0.2 && value < 100){ // >100 to remove infinities
-						importantWords.add(token);
+						importantWords.add(singularToken);
 					}
 				}
-//				for(String word : importantWords){
-//					System.out.println(word);
-//				}
-//				System.out.println("\n\n\n");
 				categoryFinder.getPairings(importantWords, 0.7, wordBrowser);
 				break;
 			}
 		}
-	}
-//	
-//	private String replaceUndesirables(String string){
-//		String output = string.replaceAll("\\p{P}", ""); //remove punctuation
-//		output = string.replaceAll("chapter", ""); //removes the word chapter
-//		output = string.replaceAll("[0-9]", ""); //removes numbers
-//		return output;
-//	}
-
-}
-
-class ValueComparator implements Comparator<String> {
-
-	Map<String, Integer> base;
-	public ValueComparator(Map<String, Integer> base) {
-		this.base = base;
-	}
-
-	// Note: this comparator imposes orderings that are inconsistent with equals.    
-	public int compare(String a, String b) {
-		if (base.get(a) >= base.get(b)) {
-			return -1;
-		} else {
-			return 1;
-		} // returning 0 would merge keys
 	}
 }

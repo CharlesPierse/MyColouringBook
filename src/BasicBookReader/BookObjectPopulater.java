@@ -17,17 +17,19 @@ public class BookObjectPopulater {
 	private String fileExtension = ".txt";
 	public int lastBookNumber = 38; //needed public
 	private ArrayList<Book> bookList = new ArrayList<Book>();
+	HashMap<String, String> pluralToSingular = new HashMap<String, String>();
+
 
 	public ArrayList<Book> getBookList() {
 		return bookList;
 	}
-	
+
 	public void populateBookPopulate(){
 		for(int i = 1; i <= lastBookNumber; i++){
 			readBook(i);
 		}
 	}
-	
+
 	private void readBook(int bookNumber){
 		Book bookObject = null;
 		image testImage;
@@ -72,7 +74,7 @@ public class BookObjectPopulater {
 						}
 						else{
 							currentPage += (" " + line.substring(0, pageCharLimit-currentCharCount));
-							
+
 							bookObject.addPage(currentPage, currentPageNumber);
 							overflow += (" " + line.substring(pageCharLimit-currentCharCount+1, line.length()));
 							currentPage = "";
@@ -98,25 +100,44 @@ public class BookObjectPopulater {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public void readInPlurals(){
+		try{
+			FileInputStream fis = new FileInputStream("resources" + File.separator + "Word databases" + File.separator + "plurals.txt");
+			BufferedReader br = new BufferedReader(new InputStreamReader(fis,"UTF-8"));
+			String line = "";
+			while((line=br.readLine())!=null){
+				String tokens[] = line.split("\t");
+				if(tokens.length == 2){
+					if(!pluralToSingular.containsKey(tokens[0])){
+						pluralToSingular.put(tokens[0], tokens[1]);
+					}
+				}
+			}
+		}catch(Exception e){
+			System.out.println("\n\nCould not read on plurals.");
+			e.printStackTrace();
+		}
+	}
+
+		public String pluralToSingular(String inWord){
+			if(pluralToSingular.containsKey(inWord)){
+				return pluralToSingular.get(inWord);
+			}
+			else{
+				return inWord;
+			}
+		}
+
 	private void saveNameAuthor(){
 		try {
 			PrintWriter writer = new PrintWriter("resources"+File.separator+"NamesAuthors.txt", "UTF-8");
 			for(Book Object : bookList){
-					writer.println(Object.getTitle() + "\t" + Object.getAuthor());
+				writer.println(Object.getTitle() + "\t" + Object.getAuthor());
 			}
 			writer.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static void main(String args[]){
-		BookObjectPopulater populater = new BookObjectPopulater(); //lpt = ling pipe test
-		for(int i = 1; i <= populater.lastBookNumber; i++){
-			populater.readBook(i);
-		}
-		populater.saveNameAuthor();
-		System.out.println(populater.bookList.size());
 	}
 }

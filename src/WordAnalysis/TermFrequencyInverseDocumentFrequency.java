@@ -83,22 +83,4 @@ public class TermFrequencyInverseDocumentFrequency {
 			currentPageNumber = 0;
 		}
 	}
-
-	public HashMap<String, Double> readFile(int bookNumber, int pageNo){
-		HashMap<String, Double> pageInfo = new HashMap<String, Double>();
-		try{
-			FileInputStream fis = new FileInputStream("resources" + File.separator + "books" + File.separator + "book_" + bookNumber + File.separator + "Page_" + pageNo + ".txt");
-			BufferedReader br = new BufferedReader(new InputStreamReader(fis,"UTF-8"));
-			String line = "";
-
-			while((line=br.readLine().toLowerCase())!=null){
-				String tokens[] = line.split("\t");
-				pageInfo.put(tokens[0], Double.parseDouble(tokens[1]));
-			}
-		}
-		catch(Exception e){
-			//e.printStackTrace();
-		}
-		return pageInfo;
-	}
 }

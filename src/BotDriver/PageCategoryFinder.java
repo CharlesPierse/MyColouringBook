@@ -35,6 +35,7 @@ public class PageCategoryFinder {
 				}
 				String token[] = sb.toString().split("\t");
 				for (int i = 0; i < token.length; i++) {
+					
 					if (token[i].matches(".*[A-Z].*")) {
 
 					}
@@ -123,23 +124,30 @@ public class PageCategoryFinder {
 		//		}
 		//		
 		//		System.out.println();
-		for(String key : val.keySet()){
-			System.out.print(key + "||||||||");
-			ArrayList<String> wordList = val.get(key);
-			for(String word : wordList){
-				System.out.print(word + " ");
-			}
-			System.out.print("\n");
-		}
-
-		//	pairMap.put(WordsIn[], val);
-
-		System.out.println("\n \n \n");
+		
+		
+//		
+//		for(String key : val.keySet()){
+//			System.out.print(key + "||||||||");
+//			ArrayList<String> wordList = val.get(key);
+//			for(String word : wordList){
+//				System.out.print(word + " ");
+//			}
+//			System.out.print("\n");
+//		}
+//
+//		//	pairMap.put(WordsIn[], val);
+//
+//		System.out.println("\n \n \n");
 
 
 		return pairMap;
 	}
-
-
+	
+	private String catagoryDecider(HashMap<String, ArrayList<String>> pageData){
+		
+		return null;
+	}
+	
 
 }
