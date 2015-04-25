@@ -37,12 +37,13 @@ public class main {
 		ArrayList<Book> bookList;
 		ArrayList<Page> pages; //pages of each book object.
 		ArrayList<String> importantWords;
-		int limit = 28;
+		int limit = 0;
 
 		populater.populateBookPopulate(); //calls the book reader on all the books.
 		bookList = populater.getBookList();// bookList = set of all the book objects
 		for(Book book : bookList){
-			if(limit > 0){
+			System.out.println(limit);
+			if(limit >= 28 && limit <39 ){
 				pages = book.getPages();
 				for(Page page : pages){
 					importantWords = new ArrayList<String>();
@@ -65,9 +66,7 @@ public class main {
 					}
 				}
 			}
-			else{
-				break;
-			}
+			limit++;
 		}
 	}
 }

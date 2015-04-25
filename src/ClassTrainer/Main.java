@@ -36,11 +36,11 @@ public class Main {
 
         //prepare training instances
         InstanceList trainingInstanceList = new InstanceList(pipe);
-        trainingInstanceList.addThruPipe(new CsvIterator(new FileReader( "resources"+File.separator+"webkb-train-stemmed.txt"),
+        trainingInstanceList.addThruPipe(new CsvIterator(new FileReader( "resources"+File.separator+"trainFile.txt"),
                 "(.*)\t(.*)", 2, 1, -1)); 
         //prepare test instances
         InstanceList testingInstanceList = new InstanceList(pipe);
-        testingInstanceList.addThruPipe(new CsvIterator(new FileReader( "resources"+File.separator+"webkb-test-stemmed.txt"),
+        testingInstanceList.addThruPipe(new CsvIterator(new FileReader( "resources"+File.separator+"testFile.txt"),
                 "(.*)\t(.*)", 2, 1, -1));
 
         ClassifierTrainer trainer = new SVMClassifierTrainer(new LinearKernel());

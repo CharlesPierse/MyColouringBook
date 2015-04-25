@@ -24,7 +24,7 @@ public class wordBrowser {
 
 	public void writeTrainer(HashMap<String, ArrayList<String>> data, String text){
 		String category = data.keySet().iterator().next();
-		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("resources" + File.separator + "trainFile.txt", true)))) {
+		try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("resources" + File.separator + "testFile.txt", true)))) {
 		    out.println(category + "\t" + text);
 		}catch (IOException e) {
 		    //exception handling left as an exercise for the reader
