@@ -85,10 +85,15 @@ public class PageCategoryFinder {
 				String token[] = sb.toString().split("\t");
 
 				for (int i = 0; i < token.length; i++) {
-					if(!count.containsKey(token[i])){
-						count.put(token[i], 0);
+					if (token[i].contains("[A-Z]")) {
+
 					}
-					count.put(token[i], count.get(token[i])+1);
+					else{
+						if(!count.containsKey(token[i])){
+							count.put(token[i], 0);
+						}
+						count.put(token[i], count.get(token[i])+1);
+					}
 				}
 			}
 		}
