@@ -74,7 +74,7 @@ public class TwitterListener{
 								if(!tweet.contains(author[y])&&author[y].length()>1){
 									hash = title[x];
 									found = true;
-									hashhit = 2;
+									hashhit = 1;
 									booknum = x;
 								}else if(tweet.contains(author[y])&&author[y].length()>1){
 									hash = title[x]+" "+author[x];
@@ -94,7 +94,7 @@ public class TwitterListener{
 									if(!tweet.contains(titleswords[y])&&titleswords[y].length()>1){
 										hash = auth[x];
 										found = true;
-										hashhit = 1;
+										hashhit = 2;
 										booknum = x;
 									}
 								}
