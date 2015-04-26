@@ -19,7 +19,7 @@ public class main {
 
 		long start = System.currentTimeMillis();
 		main m = new  main();
-		m.createTrainerFile();
+		//m.createTrainerFile();
 		long end = System.currentTimeMillis();
 		System.out.println("Time taken : " + (end-start));
 	}

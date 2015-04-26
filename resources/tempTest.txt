@@ -1,0 +1,4 @@
+Class	pour
+Class	rain
+Class2	cloud
+Class2	sunny day sun shine
