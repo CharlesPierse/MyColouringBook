@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
-
 import twitter4j.TwitterException;
 import TwitterBot.NamexTweet;
 

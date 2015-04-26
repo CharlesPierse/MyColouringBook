@@ -76,6 +76,11 @@ public class TwitterListener{
 									found = true;
 									hashhit = 2;
 									booknum = x;
+								}else if(tweet.contains(author[y])&&author[y].length()>1){
+									hash = title[x]+" "+author[x];
+									found = true;
+									hashhit = 3;
+									booknum = x;
 								}
 							}
 							}
@@ -97,7 +102,7 @@ public class TwitterListener{
 						}
 					}
 					//Check if the found tweet has a Author or Title hashtag. This info can be passed to the Namextweet
-					if(hashhit==1||hashhit==2){
+					if(hashhit==1||hashhit==2||hashhit==3){
 						long time = (status.getCreatedAt().getTime() - starttime)/1000;
 						tweetOrganizer to = null;
 						if(book.getAuthFull(booknum)!=null){

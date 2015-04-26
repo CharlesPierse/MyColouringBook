@@ -37,6 +37,18 @@ public class tweetOrganizer {
 				 * 
 				 */
 				tweet.add(hashtag);
+			}else if(type==3){
+				tweet.add("Type 3");
+				tweet.add(user);
+				tweet.add(author);
+				tweet.add(title);
+				tweet.add(hashtag);
+				/*
+				 * 
+				 * Will add details on 
+				 * coour and subject of book??/
+				 * 
+				 */
 			}
 		}
 	}

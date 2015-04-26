@@ -31,6 +31,7 @@ public class NamexTweet {
 
     	twitter.setOAuthAccessToken(oathAccessToken);
     	System.out.println(status.getStatus());
+    	//Uncomment to update status
     	//twitter.updateStatus(status);
     }
 

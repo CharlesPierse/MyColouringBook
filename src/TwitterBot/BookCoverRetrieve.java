@@ -14,7 +14,7 @@ import twitter4j.JSONObject;
 public class BookCoverRetrieve {
 	
 	public BufferedImage getBookImage(String bName){
-		return getBookImage(bName, "book_cover");
+		return getBookImage(bName, "book cover");
 	}
 	
 	public BufferedImage getBookImage(String bName, String Author_name) {
